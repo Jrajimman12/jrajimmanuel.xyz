@@ -117,6 +117,7 @@
             border-radius: 6px;
             color: var(--text-primary) !important;
             display: inline-block;
+            cursor: pointer;
         }
         .resume-link:hover {
             border-color: var(--accent);
@@ -127,7 +128,7 @@
         /* HERO SECTION (SPLIT LAYOUT) */
         .hero-container {
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Text on left, Visual on right */
+            grid-template-columns: 1.2fr 1fr;
             align-items: center;
             gap: 50px;
             padding: 100px 5% 80px 5%;
@@ -166,11 +167,14 @@
             text-decoration: none;
             transition: var(--transition);
             border: 1px solid transparent;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
         }
 
         .btn-primary {
             background: var(--text-primary);
             color: var(--bg-main);
+            border: none;
         }
         .btn-primary:hover {
             background: var(--accent);
@@ -328,12 +332,50 @@
             margin-bottom: 10px;
         }
 
+        /* CONTACT SECTION */
+        .contact-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
         /* FOOTER */
         footer {
             text-align: center;
             padding: 60px 5%;
             border-top: 1px solid var(--border-color);
-            margin-top: 50px;
+            margin-top: 20px;
         }
         
         .socials {
@@ -351,6 +393,59 @@
         .socials a:hover { 
             color: var(--text-primary); 
             transform: scale(1.2);
+        }
+
+        /* RESUME VIEWER MODAL */
+        .resume-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .resume-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .resume-iframe-container {
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .resume-modal-overlay.active .resume-iframe-container {
+            transform: translateY(0);
+        }
+
+        .close-resume {
+            position: absolute;
+            top: 15px; right: 30px;
+            font-size: 40px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2001;
+            font-weight: 300;
+        }
+        
+        .close-resume:hover { 
+            color: var(--accent); 
+            transform: scale(1.1);
         }
 
         /* ANIMATIONS */
@@ -380,6 +475,7 @@
             .project-header { flex-direction: column; gap: 15px; }
             .skill-item { flex-direction: column; gap: 5px; }
             .skill-item small { text-align: left; }
+            .resume-iframe-container { width: 95%; height: 80vh; }
         }
     </style>
 </head>
@@ -391,10 +487,12 @@
         <div class="nav-links">
             <a href="#about">Background</a>
             <a href="#work">Projects</a>
+            <a href="#contact">Contact</a>
             
             <a href="https://github.com/Jrajimman12" target="_blank" class="social-icon"><i class="fa-brands fa-github"></i></a>
             <a href="https://www.linkedin.com/in/jebarajimmanuel" target="_blank" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="resume@jebarajimmanuel.pdf" target="_blank" class="resume-link">Resume</a>
+            
+            <a href="#" class="resume-link" id="openResumeNav">Resume</a>
         </div>
     </nav>
 
@@ -406,7 +504,7 @@
             
             <div>
                 <a href="#work" class="btn btn-primary">View My Work</a>
-                <a href="mailto:Jebarajimman12@gmail.com" class="btn btn-secondary">Contact Me</a>
+                <a href="#contact" class="btn btn-secondary">Contact Me</a>
             </div>
         </div>
 
@@ -477,6 +575,40 @@
         </div>
     </section>
 
+    <section id="contact" class="section-wrapper reveal">
+        <div class="section-header">03. Let's Talk</div>
+        <div class="info-grid">
+            <div class="about-text">
+                <h2 style="font-size: 36px; margin-top: 0; color: var(--text-primary); letter-spacing: -1px;">Get In Touch</h2>
+                <p>I'm currently open to new opportunities and collaborative projects. Whether you have a question, a project idea, or just want to connect, feel free to drop a message!</p>
+                <p style="margin-top: 30px; font-weight: 500; color: var(--text-primary); font-size: 16px;">
+                    <i class="fa-solid fa-envelope" style="color: var(--accent); margin-right: 12px; font-size: 18px;"></i> Jebarajimman12@gmail.com
+                </p>
+            </div>
+            
+            <div class="contact-box">
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="4" required placeholder="How can I help you?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="socials">
             <a href="https://github.com/Jrajimman12" target="_blank"><i class="fa-brands fa-github"></i></a>
@@ -487,8 +619,15 @@
         </p>
     </footer>
 
+    <div id="resumeModal" class="resume-modal-overlay">
+        <span class="close-resume" id="closeResumeBtn">&times;</span>
+        <div class="resume-iframe-container">
+            <iframe src="resume@jebarajimmanuel.pdf#toolbar=0" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
+
     <script>
-        // Simple scroll reveal
+        // 1. SCROLL REVEAL ANIMATION
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -502,6 +641,37 @@
         }
         window.addEventListener("scroll", reveal);
         reveal(); // Trigger on load
+
+        // 2. RESUME MODAL LOGIC (NO DOWNLOAD VIEWER)
+        const resumeModal = document.getElementById('resumeModal');
+        const openResumeBtn = document.getElementById('openResumeNav');
+        const closeResumeBtn = document.getElementById('closeResumeBtn');
+
+        openResumeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            resumeModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        });
+
+        closeResumeBtn.addEventListener('click', () => {
+            resumeModal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === resumeModal) {
+                resumeModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // 3. FRONT-END CONTACT FORM SUBMISSION
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevents page reload
+            alert('Message Sent! (Note: This is a front-end preview. No email was actually sent.)');
+            contactForm.reset(); // Clears fields
+        });
     </script>
 </body>
 </html>
