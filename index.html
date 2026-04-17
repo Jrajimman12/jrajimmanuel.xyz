@@ -7,10 +7,19 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
 <style>
+
+/* SMOOTH SCROLL */
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #0b0f19;
     color: white;
 }
@@ -19,11 +28,35 @@ body {
 nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px 40px;
 }
 
-nav h2 {
+/* LOGO */
+.logo {
+    font-size: 26px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: baseline; /* FIXED ALIGNMENT */
+    line-height: 1;
+}
+
+.logo .first {
     color: #FF7457;
+    font-weight: 700;
+}
+
+.logo .second {
+    font-family: 'Merriweather', serif;
+    color: white;
+    font-weight: 700;
+}
+
+/* Hover */
+.logo:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px #FF7457;
 }
 
 nav a {
@@ -42,10 +75,20 @@ nav a {
 
 .hero-text h1 {
     font-size: 60px;
+    line-height: 1.1;
+    margin: 0;
 }
 
-.hero-text span {
+.hero-text .line1 {
+    font-weight: bold;
+    display: block;
+}
+
+.hero-text .line2 {
     color: #FF7457;
+    display: block;
+    font-size: 50px;
+    margin-top: 5px;
 }
 
 .hero-text p {
@@ -62,19 +105,77 @@ nav a {
     margin-top: 20px;
 }
 
+/* ICONS */
 .icons i {
     font-size: 22px;
     margin: 10px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.icons i:hover {
+    color: #FF7457;
+    transform: scale(1.2);
+}
+
+/* CIRCLE */
+.circle {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(255,116,87,0.3), transparent);
+    animation: float 4s ease-in-out infinite;
+}
+
+.circle::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #FF7457;
+    filter: blur(60px);
+    opacity: 0.4;
+    animation: pulse 3s infinite;
+}
+
+.circle span {
+    font-size: 60px;
+    font-weight: bold;
+    color: white;
+    z-index: 2;
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 0.4; }
+}
+
+/* SECTION TITLE */
+.section-title {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.section-title span {
+    color: #FF7457;
 }
 
 /* SKILLS */
 .skills {
     padding: 60px 40px;
-}
-
-.skills h2 span {
-    color: #FF7457;
 }
 
 .skill-box {
@@ -88,6 +189,12 @@ nav a {
     padding: 20px;
     border-radius: 15px;
     flex: 1;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px #FF7457;
 }
 
 /* PROJECTS */
@@ -117,7 +224,16 @@ nav a {
         flex-direction: column;
         text-align: center;
     }
+
+    .hero-text h1 {
+        font-size: 40px;
+    }
+
+    .hero-text .line2 {
+        font-size: 32px;
+    }
 }
+
 </style>
 </head>
 
@@ -125,7 +241,9 @@ nav a {
 
 <!-- NAVBAR -->
 <nav>
-    <h2>Jraj</h2>
+    <h2 class="logo">
+        <span class="first">Jebaraj</span><span class="second">Immanuel</span>
+    </h2>
     <div>
         <a href="#skills">Skills</a>
         <a href="#projects">Work</a>
@@ -135,7 +253,10 @@ nav a {
 <!-- HERO -->
 <section class="hero">
     <div class="hero-text">
-        <h1>Meet your <span>practical</span> developer</h1>
+        <h1>
+            <span class="line1">Student Developer</span>
+            <span class="line2">Practically Yours!</span>
+        </h1>
         <p>Building web apps that solve real problems</p>
 
         <a href="#" class="btn">See my resume</a>
@@ -147,15 +268,14 @@ nav a {
         </div>
     </div>
 
-    <div>
-        <!-- decorative circle -->
-        <div style="width:250px;height:250px;border-radius:50%;background:#FF7457;opacity:0.2;"></div>
+    <div class="circle">
+        <span>JI</span>
     </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills" class="skills">
-    <h2>this.<span>skills</span></h2>
+    <h2 class="section-title">Skill <span>Focus</span></h2>
 
     <div class="skill-box">
         <div class="card">
@@ -177,7 +297,7 @@ nav a {
 
 <!-- PROJECTS -->
 <section id="projects" class="projects">
-    <h2>this.<span style="color:#FF7457;">work</span></h2>
+    <h2 class="section-title">Work <span>Focus</span></h2>
 
     <div class="project">
         <img src="https://via.placeholder.com/300">
