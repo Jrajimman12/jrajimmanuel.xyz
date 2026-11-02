@@ -7,19 +7,31 @@
 <link id="favicon" rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D41514'/%3E%3Cstop offset='55%25' stop-color='%23CDCBCA'/%3E%3Cstop offset='100%25' stop-color='%23D41514'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23080808'/%3E%3Crect x='3' y='3' width='58' height='58' rx='14' fill='none' stroke='url(%23g)' stroke-width='3.5'/%3E%3Ctext x='32' y='41' font-size='26' font-weight='800' text-anchor='middle' fill='%23FFFFFF' font-family='sans-serif'%3EJI%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@property --aura-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 :root {
   --bg: #080808;
   --panel: #0d0d10;
   --panel-2: #121216;
   --line: #1f1f24;
   --a: #D41514;
-  --b: #ff3332;
+  --b: #ff3b3a;
   --c: #CDCBCA;
   --t: #ffffff;
-  --muted: #858483;
-  --chrome-grad: linear-gradient(180deg, #ffffff 12%, var(--c) 92%);
+  --muted: #8a8988;
+  --font-display: 'Sora', sans-serif;
+  --font-tech: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --glow-int: 1;
+  --chrome-grad: linear-gradient(180deg, #ffffff 15%, var(--c) 95%);
   --ease: cubic-bezier(.22, 1, .36, 1);
   --spring: cubic-bezier(.34, 1.56, .64, 1);
   color-scheme: dark;
@@ -35,7 +47,7 @@ html {
 }
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--t);
   line-height: 1.6;
@@ -46,7 +58,6 @@ body {
   transition: background-color .7s var(--ease), color .5s ease;
 }
 
-/* Circular Portal View-Transition for Easter Egg Theme Changes */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -61,7 +72,20 @@ svg.i { width: 1em; height: 1em; fill: currentColor; display: block; }
 ::selection { background: var(--a); color: #fff; }
 :focus-visible { outline: 2px solid var(--a); outline-offset: 3px; }
 
-/* Ambient Obsidian Canvas + Sweeping Crimson Eclipse Ring */
+/* Smooth Per-Character Decode Styling (Only on the 4 Headings & Copied Gmail) */
+.m-ch {
+  display: inline-block;
+  transition: opacity .34s var(--ease), filter .34s var(--ease), transform .34s var(--ease), color .34s ease;
+}
+.m-ch.decoding {
+  opacity: .38;
+  filter: blur(1.4px);
+  transform: translateY(2px);
+  color: var(--a);
+  -webkit-text-fill-color: var(--a);
+}
+
+/* Ambient Obsidian Canvas + Eclipse Horizon */
 .ambient-bg {
   position: fixed;
   inset: 0;
@@ -69,17 +93,19 @@ svg.i { width: 1em; height: 1em; fill: currentColor; display: block; }
   overflow: hidden;
   background: var(--bg);
   pointer-events: none;
+  transition: opacity .5s ease;
 }
 .ambient-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(205, 203, 202, .04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(205, 203, 202, .04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(205, 203, 202, .038) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(205, 203, 202, .038) 1px, transparent 1px);
   background-size: 72px 72px;
   -webkit-mask-image: radial-gradient(ellipse 75% 65% at 65% 45%, #000 15%, transparent 80%);
   mask-image: radial-gradient(ellipse 75% 65% at 65% 45%, #000 15%, transparent 80%);
-  animation: gridPan 24s linear infinite;
+  animation: gridPan 26s linear infinite;
+  transition: opacity .45s ease;
 }
 @keyframes gridPan { to { background-position: 72px 72px; } }
 
@@ -93,11 +119,12 @@ svg.i { width: 1em; height: 1em; fill: currentColor; display: block; }
   transform: translate3d(0, -48%, 0);
   background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, .02), transparent 65%);
   box-shadow:
-    inset 2px 1px 0 0 color-mix(in srgb, var(--c) 35%, transparent),
-    inset 16px 0 55px -8px color-mix(in srgb, var(--a) 68%, transparent),
-    -24px 0 80px -16px color-mix(in srgb, var(--a) 36%, transparent);
+    inset 2px 1px 0 0 color-mix(in srgb, var(--c) 34%, transparent),
+    inset 16px 0 55px -8px color-mix(in srgb, var(--a) 66%, transparent),
+    -24px 0 80px -16px color-mix(in srgb, var(--a) 34%, transparent);
   opacity: .85;
   will-change: transform;
+  transition: opacity .45s ease;
 }
 .eclipse-horizon::before {
   content: "";
@@ -105,35 +132,44 @@ svg.i { width: 1em; height: 1em; fill: currentColor; display: block; }
   inset: -40px;
   border-radius: 50%;
   border: 1px solid transparent;
-  border-left-color: color-mix(in srgb, var(--a) 48%, transparent);
+  border-left-color: color-mix(in srgb, var(--a) 46%, transparent);
   border-top-color: color-mix(in srgb, var(--c) 18%, transparent);
   animation: orbitSpin 28s linear infinite;
 }
 @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+body[data-bg-mode="grid"] #starfield,
+body[data-bg-mode="grid"] .eclipse-horizon { opacity: 0; }
+body[data-bg-mode="minimal"] #starfield,
+body[data-bg-mode="minimal"] .ambient-grid,
+body[data-bg-mode="minimal"] .eclipse-horizon { opacity: 0; }
 
 #starfield {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: .6;
+  opacity: .58;
+  transition: opacity .45s ease;
 }
 .cursor-aura {
   position: fixed;
-  width: 480px;
-  height: 480px;
+  width: 520px;
+  height: 520px;
   left: 0;
   top: 0;
-  margin: -240px 0 0 -240px;
+  margin: -260px 0 0 -260px;
   border-radius: 50%;
   background: radial-gradient(circle, color-mix(in srgb, var(--a) 13%, transparent), transparent 66%);
   pointer-events: none;
   z-index: -1;
   opacity: 0;
   transition: opacity .4s ease;
+  will-change: transform;
 }
+body[data-cursor="off"] .cursor-aura { display: none; }
 
-/* Top Laser Progress Filament */
+/* Top Scroll Progress Line */
 #bar {
   position: fixed;
   top: 0;
@@ -150,7 +186,7 @@ svg.i { width: 1em; height: 1em; fill: currentColor; display: block; }
 }
 @keyframes shimmerFlow { to { background-position: 200% 0; } }
 
-/* Architectural HUD Top Navigation Bar (No Color Button at Top) */
+/* Top Floating Navigation Bar */
 nav {
   position: fixed;
   top: max(12px, env(safe-area-inset-top, 12px));
@@ -185,27 +221,28 @@ nav.s .nav-in {
   box-shadow: 0 22px 55px -12px rgba(0, 0, 0, .95), 0 0 28px -12px color-mix(in srgb, var(--a) 45%, transparent);
 }
 
-/* Two-Font Logo + Vanish/Appear Blinking Dot */
 .logo {
   display: inline-flex;
   align-items: baseline;
   gap: 5px;
   user-select: none;
   flex-shrink: 0;
+  transition: transform .3s var(--spring);
 }
+.logo:hover { transform: scale(1.02); }
 .logo b {
-  font: 800 20px 'Sora', sans-serif;
+  font: 800 20px var(--font-display);
   letter-spacing: -.7px;
   color: #ffffff;
 }
 .logo span.immanuel-font {
-  font: 400 20px 'Space Grotesk', sans-serif;
+  font: 400 20px var(--font-tech);
   letter-spacing: -.3px;
   color: var(--c);
 }
 .logo u {
   text-decoration: none;
-  font: 800 24px 'Sora', sans-serif;
+  font: 800 24px var(--font-display);
   color: var(--a);
   margin-left: 1px;
   text-shadow: 0 0 12px var(--a);
@@ -216,11 +253,7 @@ nav.s .nav-in {
   50% { opacity: 0; }
 }
 
-.nav-center {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.nav-center { display: flex; align-items: center; gap: 10px; }
 .nav-menu-pill {
   position: relative;
   display: flex;
@@ -249,7 +282,7 @@ nav.s .nav-in {
 }
 .nav-menu-pill a.l {
   color: var(--c);
-  font: 600 11.5px 'Space Grotesk', sans-serif;
+  font: 600 11.5px var(--font-tech);
   text-transform: uppercase;
   letter-spacing: 1.1px;
   padding: 7px 15px;
@@ -259,11 +292,7 @@ nav.s .nav-in {
 .nav-menu-pill a.l:hover,
 .nav-menu-pill a.l.on { color: #ffffff; }
 
-.nav-divider {
-  width: 1px;
-  height: 18px;
-  background: rgba(205, 203, 202, .15);
-}
+.nav-divider { width: 1px; height: 18px; background: rgba(205, 203, 202, .15); }
 
 .soc { display: flex; align-items: center; gap: 6px; }
 .soc-btn {
@@ -299,19 +328,14 @@ nav.s .nav-in {
 [data-b=ig] { --bg-b: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); --glow-c: rgba(221, 42, 123, .55); }
 [data-b=gm] { --bg-b: linear-gradient(135deg, #D41514, #ff4d4d); --glow-c: rgba(212, 21, 20, .6); }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+.nav-right { display: flex; align-items: center; gap: 8px; }
 .resume-link {
   position: relative;
   padding: 8px 17px;
   border-radius: 999px;
   background: #080808;
   border: 1px solid color-mix(in srgb, var(--a) 72%, rgba(205, 203, 202, .25));
-  font: 600 11px 'Space Grotesk', sans-serif;
+  font: 600 11px var(--font-tech);
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: #ffffff;
@@ -320,12 +344,12 @@ nav.s .nav-in {
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 0 18px -5px color-mix(in srgb, var(--a) 60%, transparent), inset 0 0 10px color-mix(in srgb, var(--a) 18%, transparent);
-  transition: transform .35s var(--spring), border-color .3s, box-shadow .3s;
+  transition: transform .3s var(--spring), border-color .3s, box-shadow .3s;
 }
-.resume-link span { color: var(--a); font-size: 12px; transition: transform .35s var(--spring); }
-.resume-link:active, .resume-link.launching { transform: scale(.93); box-shadow: 0 0 28px var(--a); }
+.resume-link span.arr { color: var(--a); font-size: 12px; transition: transform .3s var(--spring); }
+.resume-link:active, .resume-link.launching { transform: scale(.94); }
 
-/* Mobile Menu Button & Drawer */
+/* Mobile Menu & Drawer */
 .mobile-menu-btn {
   display: none;
   width: 36px;
@@ -362,7 +386,7 @@ nav.s .nav-in {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid color-mix(in srgb, var(--a) 45%, rgba(205, 203, 202, .18));
-  border-radius: 22px;
+  border-radius: var(--radius);
   padding: 16px;
   box-shadow: 0 30px 70px rgba(0, 0, 0, .95);
   opacity: 0;
@@ -377,10 +401,10 @@ nav.s .nav-in {
   justify-content: space-between;
   align-items: center;
   padding: 12px 15px;
-  border-radius: 13px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, .03);
   border: 1px solid rgba(205, 203, 202, .08);
-  font: 600 13px 'Space Grotesk', sans-serif;
+  font: 600 13px var(--font-tech);
   letter-spacing: .8px;
   text-transform: uppercase;
   color: var(--c);
@@ -411,36 +435,36 @@ nav.s .nav-in {
   padding: 0;
 }
 
-/* Desktop Hover States */
 @media (hover: hover) and (pointer: fine) {
   .cursor-aura { opacity: 1; }
   .soc-btn::after {
     content: attr(data-tip);
     position: absolute;
-    bottom: -33px;
+    bottom: -36px;
     left: 50%;
-    transform: translate(-50%, 6px) scale(.9);
-    background: #111114;
-    color: #fff;
-    font: 600 10px 'Space Grotesk', sans-serif;
-    letter-spacing: .5px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(205, 203, 202, .18);
+    transform: translate(-50%, 8px) scale(.92);
+    background: #0e0e12;
+    color: #ffffff;
+    font: 500 10.5px 'JetBrains Mono', monospace;
+    letter-spacing: .3px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--a) 45%, rgba(205, 203, 202, .2));
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity .25s, transform .25s var(--ease);
+    transition: opacity .25s var(--ease), transform .3s var(--spring);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .8);
     z-index: 20;
   }
   .soc-btn:hover { color: #fff; border-color: transparent; transform: translateY(-3px) scale(1.06); box-shadow: 0 10px 22px -6px var(--glow-c); }
   .soc-btn:hover::before { transform: scale(1); }
   .soc-btn:hover::after { opacity: 1; transform: translate(-50%, 0) scale(1); }
   .resume-link:hover { transform: translateY(-2px); border-color: var(--a); box-shadow: 0 10px 28px -6px color-mix(in srgb, var(--a) 80%, transparent); }
-  .resume-link:hover span { transform: translate(3px, -3px); }
+  .resume-link:hover span.arr { transform: translate(3px, -3px); }
 }
 
-/* Fixed Side Stage Telemetry Rail */
+/* Side Stage Rail */
 .stage-rail {
   position: fixed;
   left: 22px;
@@ -486,7 +510,7 @@ nav.s .nav-in {
   box-shadow: 0 0 14px var(--a);
 }
 
-/* Exclusive Stage Choreography */
+/* Stage Choreography & Custom Continuous Scroll Option */
 .stage-section {
   min-height: 100vh;
   min-height: 100svh;
@@ -494,14 +518,14 @@ nav.s .nav-in {
   flex-direction: column;
   justify-content: center;
   max-width: 1240px;
-  margin: 0 auto 24vh;
-  margin-bottom: 24svh;
-  padding: 112px 5% 80px;
+  margin: 0 auto 22vh;
+  margin-bottom: 22svh;
+  padding: 108px 5% 76px;
   position: relative;
 }
 .js .stage-guard {
   opacity: 0;
-  transform: translate3d(0, 52px, 0) scale(.965);
+  transform: translate3d(0, 48px, 0) scale(.97);
   transition: opacity .72s var(--ease), transform .78s var(--ease);
   will-change: opacity, transform;
 }
@@ -511,11 +535,20 @@ nav.s .nav-in {
 }
 .js .stage-guard.stage-passed {
   opacity: 0;
-  transform: translate3d(0, -52px, 0) scale(.965);
+  transform: translate3d(0, -48px, 0) scale(.97);
+}
+body[data-scroll-mode="free"] .stage-section {
+  margin-bottom: 4vh;
+  min-height: auto;
+}
+body[data-scroll-mode="free"] .stage-guard,
+body[data-scroll-mode="free"] .stage-guard.stage-passed {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 /* =========================================================
-   STAGE 00: EDITORIAL ASYMMETRIC HERO + 3D CYBERNETIC CORE
+   STAGE 00: HERO + INERTIA 3D GLOBE
    ========================================================= */
 .hero-split {
   display: grid;
@@ -560,14 +593,14 @@ nav.s .nav-in {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font: 500 11px/1.35 'JetBrains Mono', monospace;
-  letter-spacing: 2.2px;
+  font: 600 11.5px/1.4 var(--font-tech);
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   color: var(--c);
 }
 .spec-lines strong {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -582,26 +615,26 @@ nav.s .nav-in {
 }
 
 .hero-headline {
-  margin: 0 0 22px;
+  margin: 0 0 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 4px;
+  overflow: visible;
 }
-.mask-row {
-  overflow: hidden;
+.hl-row {
   display: block;
-  padding-bottom: 4px;
+  overflow: visible;
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(.97);
+  animation: cleanHeroRise .9s var(--ease) var(--d, .18s) forwards;
 }
-.mask-inner {
-  display: inline-block;
-  transform: translate3d(0, 110%, 0);
-  animation: maskRise .95s var(--ease) var(--d, .2s) forwards;
+@keyframes cleanHeroRise {
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
-@keyframes maskRise { to { transform: translate3d(0, 0, 0); } }
 
 .hl-chrome {
-  font: 800 clamp(34px, 4.9vw, 68px)/1.03 'Sora', sans-serif;
+  font: 800 clamp(34px, 4.9vw, 68px)/1.05 var(--font-display);
   letter-spacing: -.03em;
   text-transform: uppercase;
   background: var(--chrome-grad);
@@ -610,33 +643,33 @@ nav.s .nav-in {
   color: transparent;
 }
 .hl-crimson {
-  font: 800 clamp(38px, 5.5vw, 76px)/1.02 'Space Grotesk', sans-serif;
+  display: inline-block;
+  font: 800 clamp(38px, 5.5vw, 76px)/1.05 var(--font-tech);
   letter-spacing: -.02em;
   text-transform: uppercase;
-  color: var(--a);
-  text-shadow: 0 0 42px color-mix(in srgb, var(--a) 52%, transparent);
-  position: relative;
-}
-.hl-crimson::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 35%, #ffffff 50%, transparent 65%);
-  background-size: 220% 100%;
+  background: linear-gradient(
+    110deg,
+    var(--a) 0%,
+    var(--a) 36%,
+    #ffffff 49%,
+    var(--c) 53%,
+    var(--a) 66%,
+    var(--a) 100%
+  );
+  background-size: 240% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: textGlint 4.5s ease-in-out infinite;
-  pointer-events: none;
+  animation: smoothTextFlow 5s ease-in-out infinite;
 }
-@keyframes textGlint {
-  0%, 25% { background-position: 130% 0; }
-  75%, 100% { background-position: -80% 0; }
+@keyframes smoothTextFlow {
+  0% { background-position: 120% 50%; }
+  50% { background-position: -20% 50%; }
+  100% { background-position: 120% 50%; }
 }
 .hl-dot {
   color: var(--a);
   -webkit-text-fill-color: var(--a);
-  text-shadow: 0 0 18px var(--a);
   animation: dotVanish 1.6s ease-in-out infinite;
 }
 
@@ -650,14 +683,14 @@ nav.s .nav-in {
   transform: translate3d(0, 18px, 0);
   animation: bootUp .85s var(--ease) .45s forwards;
 }
-@keyframes bootUp { to { opacity: .86; transform: translate3d(0, 0, 0); } }
+@keyframes bootUp { to { opacity: .88; transform: translate3d(0, 0, 0); } }
 
 .hero-cta-row {
   display: flex;
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin-bottom: 38px;
   opacity: 0;
   transform: translate3d(0, 18px, 0);
   animation: bootUpFull .85s var(--ease) .55s forwards;
@@ -672,9 +705,9 @@ nav.s .nav-in {
   gap: 14px;
   padding: 14px 28px;
   border-radius: 999px;
-  font: 600 12px 'Space Grotesk', sans-serif;
+  font: 600 12px var(--font-tech);
   text-transform: uppercase;
-  letter-spacing: 1.6px;
+  letter-spacing: 1.5px;
   cursor: pointer;
   transition: transform .35s var(--spring), box-shadow .35s var(--ease), border-color .35s, background .35s, color .3s;
 }
@@ -707,49 +740,47 @@ nav.s .nav-in {
     border-color: var(--a);
     box-shadow: 0 18px 42px -6px color-mix(in srgb, var(--a) 75%, transparent), inset 0 0 22px color-mix(in srgb, var(--a) 32%, transparent);
   }
-  .btn-primary:hover .btn-icon-wrap {
-    transform: translateX(4px) scale(1.1);
-    background: var(--a);
-    color: #ffffff;
-  }
-  .btn-secondary:hover {
-    transform: translateY(-3px);
-    background: rgba(205, 203, 202, .08);
-    border-color: var(--c);
-    color: #ffffff;
-  }
-  .btn-secondary:hover .btn-icon-wrap {
-    transform: translate(3px, -3px);
-    background: rgba(205, 203, 202, .2);
-    color: #ffffff;
-  }
+  .btn-primary:hover .btn-icon-wrap { transform: translateX(4px) scale(1.1); background: var(--a); color: #ffffff; }
+  .btn-secondary:hover { transform: translateY(-3px); background: rgba(205, 203, 202, .08); border-color: var(--c); color: #ffffff; }
+  .btn-secondary:hover .btn-icon-wrap { transform: translate(3px, -3px); background: rgba(205, 203, 202, .2); color: #ffffff; }
 }
 
-.hero-micro-bar {
+.hero-pillars {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  font: 500 10.5px 'JetBrains Mono', monospace;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
+  gap: 14px;
+  font: 600 11.5px var(--font-tech);
+  letter-spacing: 1px;
   color: var(--muted);
   opacity: 0;
   animation: bootUpFull .9s var(--ease) .66s forwards;
 }
-.hero-micro-bar i {
-  width: 1px;
-  height: 12px;
-  background: rgba(205, 203, 202, .22);
+.pillar-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .025);
+  border: 1px solid rgba(205, 203, 202, .1);
+  color: var(--c);
+  transition: transform .3s var(--spring), border-color .3s, color .3s, background .3s;
 }
-.hero-micro-bar span { transition: color .3s; }
-.hero-micro-bar span:hover { color: var(--a); }
+.pillar-pill i { width: 5px; height: 5px; border-radius: 50%; background: var(--a); box-shadow: 0 0 8px var(--a); }
+@media (hover: hover) and (pointer: fine) {
+  .pillar-pill:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--a) 55%, transparent);
+    background: color-mix(in srgb, var(--a) 10%, #080808);
+    color: #ffffff;
+  }
+}
 
-/* Right Column: Interactive 3D Liquid-Chrome & Laser-Crimson Cybernetic Core */
 .hero-core-stage {
   position: relative;
   width: 100%;
-  height: 470px;
+  height: 460px;
   display: grid;
   place-items: center;
   opacity: 0;
@@ -760,96 +791,23 @@ nav.s .nav-in {
 
 .core-halo {
   position: absolute;
-  width: 74%;
-  height: 74%;
+  width: 68%;
+  height: 68%;
   border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--a) 34%, transparent), transparent 68%);
-  filter: blur(42px);
+  background: radial-gradient(circle, color-mix(in srgb, var(--a) 32%, transparent), transparent 70%);
+  filter: blur(44px);
   pointer-events: none;
   animation: corePulse 4.5s ease-in-out infinite alternate;
 }
 @keyframes corePulse {
-  0% { transform: scale(.9); opacity: .65; }
-  100% { transform: scale(1.12); opacity: 1; }
+  0% { transform: scale(.92); opacity: .6; }
+  100% { transform: scale(1.1); opacity: .95; }
 }
-
-#cyberCore {
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: pan-y;
-}
+#cyberCore { width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
 #cyberCore:active { cursor: grabbing; }
 
-.core-hud-tag {
-  position: absolute;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(10, 10, 13, .86);
-  border: 1px solid rgba(205, 203, 202, .16);
-  font: 500 10px 'JetBrains Mono', monospace;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--c);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  pointer-events: none;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, .7);
-}
-.core-hud-tag i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--a);
-  box-shadow: 0 0 8px var(--a);
-}
-.hud-tl { top: 8%; left: 4%; animation: hudFloat 5s ease-in-out infinite; }
-.hud-br { bottom: 10%; right: 4%; animation: hudFloat 6s ease-in-out infinite reverse; }
-@keyframes hudFloat {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -7px, 0); }
-}
-
-.kinetic-ribbon {
-  position: relative;
-  width: 100%;
-  margin-top: 30px;
-  padding: 12px 0;
-  border-top: 1px solid rgba(205, 203, 202, .09);
-  border-bottom: 1px solid rgba(205, 203, 202, .09);
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-.ribbon-track {
-  display: flex;
-  width: max-content;
-  gap: 28px;
-  animation: marqueeScroll 28s linear infinite;
-}
-.kinetic-ribbon:hover .ribbon-track { animation-play-state: paused; }
-@keyframes marqueeScroll { to { transform: translate3d(-50%, 0, 0); } }
-.ribbon-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font: 600 11px 'JetBrains Mono', monospace;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  color: var(--c);
-  opacity: .75;
-}
-.ribbon-item i {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--a);
-  box-shadow: 0 0 8px var(--a);
-}
-
 /* =========================================================
-   SHARED SECTION HEADER + SPOTLIGHT BENTO CARDS
+   SMOOTH HEADING DECODE (ONLY ON THE 4 HEADINGS)
    ========================================================= */
 .section-header-row {
   display: flex;
@@ -860,16 +818,17 @@ nav.s .nav-in {
   margin-bottom: 34px;
 }
 .section-header {
-  font: 700 12.5px 'JetBrains Mono', monospace;
-  color: var(--c);
+  font: 700 13px var(--font-tech);
+  color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 2.2px;
+  letter-spacing: 2px;
   margin-bottom: 34px;
   display: flex;
   align-items: center;
   gap: 14px;
 }
-.section-header-row .section-header { margin-bottom: 0; flex-grow: 1; min-width: 240px; }
+.section-header-row .section-header { margin-bottom: 0; flex-grow: 1; min-width: 220px; }
+
 .num-badge {
   display: inline-grid;
   place-items: center;
@@ -878,33 +837,87 @@ nav.s .nav-in {
   background: color-mix(in srgb, var(--a) 16%, #080808);
   border: 1px solid color-mix(in srgb, var(--a) 62%, transparent);
   color: var(--a);
-  font-size: 11px;
+  font: 600 11px 'JetBrains Mono', monospace;
   box-shadow: 0 0 14px -2px color-mix(in srgb, var(--a) 48%, transparent);
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity .5s var(--ease), transform .55s var(--spring);
 }
+.section-header.head-visible .num-badge { opacity: 1; transform: scale(1); }
+
+.heading-decode {
+  display: inline-block;
+  color: #ffffff;
+}
+
 .header-line {
   height: 1px;
-  background: linear-gradient(90deg, var(--a), rgba(205, 203, 202, .22), transparent);
+  background: linear-gradient(90deg, var(--a), rgba(205, 203, 202, .25), transparent);
   flex-grow: 1;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 1s var(--ease) .15s;
+  transition: transform 1.05s var(--ease) .25s;
 }
-.stage-active .header-line { transform: scaleX(1); }
+.section-header.head-visible .header-line { transform: scaleX(1); }
 
+.availability-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: #0b0b0e;
+  border: 1px solid rgba(205, 203, 202, .16);
+  box-shadow: 0 10px 26px -10px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .05);
+  flex-shrink: 0;
+}
+.avail-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+.avail-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid #10b981;
+  animation: availPing 2s cubic-bezier(0, 0, .2, 1) infinite;
+}
+@keyframes availPing {
+  0% { transform: scale(.7); opacity: .9; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+.availability-text {
+  font: 600 11.5px var(--font-tech);
+  letter-spacing: .6px;
+  color: #ffffff;
+}
+
+/* Spotlight Bento Card Base */
 .spot-card {
   position: relative;
   background: var(--panel);
   border: 1px solid rgba(205, 203, 202, .11);
-  border-radius: 22px;
+  border-radius: var(--radius);
   overflow: hidden;
   isolation: isolate;
-  transition: transform .35s var(--ease), border-color .4s, box-shadow .4s;
+  transition: transform .35s var(--ease), border-color .4s, box-shadow .4s, border-radius .4s ease;
+}
+body[data-surface="frosted"] .spot-card,
+body[data-surface="frosted"] .project-card {
+  background: rgba(16, 16, 22, .62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 .spot-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a) 17%, transparent), rgba(205, 203, 202, .05) 42%, transparent 70%);
+  background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a) calc(17% * var(--glow-int)), transparent), rgba(205, 203, 202, .05) 42%, transparent 70%);
   opacity: .3;
   transition: opacity .4s ease;
   pointer-events: none;
@@ -920,7 +933,7 @@ nav.s .nav-in {
 }
 
 /* =========================================================
-   STAGE 01: BENTO ARCHITECTURE & INTERACTIVE STACK MATRIX
+   STAGE 01: BACKGROUND & STACK
    ========================================================= */
 .bento-about-grid {
   display: grid;
@@ -936,8 +949,8 @@ nav.s .nav-in {
   gap: 24px;
 }
 .bio-kicker {
-  font: 600 11px 'JetBrains Mono', monospace;
-  letter-spacing: 1.6px;
+  font: 600 11px var(--font-tech);
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--a);
   display: inline-flex;
@@ -953,7 +966,7 @@ nav.s .nav-in {
   box-shadow: 0 0 8px var(--a);
 }
 .bio-bento h3 {
-  font: 700 clamp(22px, 2.4vw, 28px)/1.25 'Sora', sans-serif;
+  font: 700 clamp(22px, 2.4vw, 28px)/1.25 var(--font-display);
   margin: 0 0 16px;
   background: var(--chrome-grad);
   -webkit-background-clip: text;
@@ -962,7 +975,7 @@ nav.s .nav-in {
 }
 .bio-bento p {
   color: var(--c);
-  opacity: .84;
+  opacity: .86;
   font-size: 14.8px;
   margin: 0 0 14px;
   position: relative;
@@ -970,27 +983,30 @@ nav.s .nav-in {
 }
 .bio-bento p:last-child { margin-bottom: 0; }
 
-.telemetry-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
+.stack-focus-bar {
   position: relative;
   z-index: 1;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: #080808;
+  border: 1px solid rgba(205, 203, 202, .12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color .35s ease;
 }
-.metric-box strong {
-  display: block;
-  font: 800 22px 'Sora', sans-serif;
-  color: #ffffff;
-  letter-spacing: -.5px;
-}
-.metric-box strong em { font-style: normal; color: var(--a); }
-.metric-box span {
-  font: 500 10.5px 'JetBrains Mono', monospace;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--muted);
+.stack-focus-bar.lit { border-color: color-mix(in srgb, var(--a) 55%, transparent); }
+.sf-text { font: 500 12.5px var(--font-body); color: var(--c); }
+.sf-text strong { color: #ffffff; font-family: var(--font-tech); margin-right: 6px; }
+.sf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--a);
+  box-shadow: 0 0 10px var(--a);
+  flex-shrink: 0;
+  animation: dotVanish 1.6s infinite;
 }
 
 .stack-matrix {
@@ -1004,6 +1020,7 @@ nav.s .nav-in {
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
+  cursor: default;
 }
 .stack-module::after {
   content: "";
@@ -1013,19 +1030,17 @@ nav.s .nav-in {
   width: 60%;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--a), var(--c), transparent);
-  animation: scanTop 4s ease-in-out infinite;
+  animation: scanTop 4.2s ease-in-out infinite;
   animation-delay: var(--sd, 0s);
 }
-@keyframes scanTop {
-  0% { left: -70%; }
-  65%, 100% { left: 130%; }
-}
+@keyframes scanTop { 0% { left: -70%; } 65%, 100% { left: 130%; } }
 .mod-head { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
 .mod-code {
-  font: 500 10px 'JetBrains Mono', monospace;
-  letter-spacing: 1.2px;
+  font: 600 10px var(--font-tech);
+  letter-spacing: 1px;
+  text-transform: uppercase;
   color: var(--a);
-  padding: 3px 8px;
+  padding: 3px 9px;
   border-radius: 6px;
   background: color-mix(in srgb, var(--a) 14%, #080808);
   border: 1px solid color-mix(in srgb, var(--a) 38%, transparent);
@@ -1036,13 +1051,13 @@ nav.s .nav-in {
   border-radius: 50%;
   background: var(--c);
   opacity: .45;
-  transition: background .3s, box-shadow .3s, opacity .3s;
+  transition: background .3s, box-shadow .3s, opacity .3s, transform .3s var(--spring);
 }
-.stack-module:hover .mod-led { background: var(--a); opacity: 1; box-shadow: 0 0 10px var(--a); }
-.stack-module h4 { font: 700 16px 'Sora', sans-serif; margin: 0 0 10px; color: #ffffff; position: relative; z-index: 1; }
+.stack-module:hover .mod-led { background: var(--a); opacity: 1; box-shadow: 0 0 10px var(--a); transform: scale(1.3); }
+.stack-module h4 { font: 700 16px var(--font-display); margin: 0 0 8px; color: #ffffff; position: relative; z-index: 1; }
 .mod-chips { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
 .mod-chips span {
-  font: 500 11.5px 'Space Grotesk', sans-serif;
+  font: 500 11.5px var(--font-tech);
   padding: 4px 10px;
   border-radius: 999px;
   background: #080808;
@@ -1051,15 +1066,16 @@ nav.s .nav-in {
   transition: transform .3s var(--spring), border-color .3s, color .3s;
 }
 @media (hover: hover) and (pointer: fine) {
-  .stack-module:hover { transform: translateY(-4px); }
+  .stack-module:hover { transform: translateY(-5px); }
   .stack-module:hover .mod-chips span {
+    transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--a) 55%, rgba(205, 203, 202, .2));
     color: #ffffff;
   }
 }
 
 /* =========================================================
-   STAGE 02: GLIDING FILTER PILL + CHOREOGRAPHED PROJECT CARDS
+   STAGE 02: UNIFIED FORECAST-STYLE VISUALIZERS FOR ALL 3 PROJECTS
    ========================================================= */
 .project-filters {
   position: relative;
@@ -1074,7 +1090,6 @@ nav.s .nav-in {
   isolation: isolate;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 12px 30px -12px rgba(0, 0, 0, .8);
 }
-/* 2D Gliding Laser-Chrome Filter Indicator */
 .filter-pill-slider {
   position: absolute;
   top: 0;
@@ -1085,7 +1100,7 @@ nav.s .nav-in {
   background: linear-gradient(135deg, color-mix(in srgb, var(--a) 34%, #080808), rgba(205, 203, 202, .1));
   border: 1px solid color-mix(in srgb, var(--a) 75%, rgba(205, 203, 202, .25));
   box-shadow: 0 0 22px -4px color-mix(in srgb, var(--a) 65%, transparent), inset 0 0 10px color-mix(in srgb, var(--a) 22%, transparent);
-  transition: transform .48s var(--spring), width .48s var(--spring), height .38s var(--ease), opacity .3s ease;
+  transition: transform .46s var(--spring), width .46s var(--spring), height .36s var(--ease), opacity .3s ease;
   z-index: -1;
   pointer-events: none;
   opacity: 0;
@@ -1098,7 +1113,7 @@ nav.s .nav-in {
   background: transparent;
   border: 0;
   color: var(--muted);
-  font: 600 11px 'Space Grotesk', sans-serif;
+  font: 600 11px var(--font-tech);
   letter-spacing: .8px;
   text-transform: uppercase;
   padding: 8px 15px;
@@ -1126,35 +1141,27 @@ nav.s .nav-in {
 }
 
 .projects-bento {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  position: relative;
 }
 
 .project-card {
   position: relative;
   background: var(--panel);
   border: 1px solid rgba(205, 203, 202, .12);
-  border-radius: 22px;
-  padding: 32px;
-  overflow: hidden;
-  isolation: isolate;
-  transition: transform .35s var(--ease), border-color .4s, box-shadow .4s;
-}
-.project-card.featured-span {
-  grid-column: 1 / -1;
+  border-radius: var(--radius);
+  padding: 30px 32px;
   display: grid;
   grid-template-columns: 1.25fr .75fr;
   gap: 28px;
   align-items: center;
-}
-.project-card.solo-span {
-  grid-column: 1 / -1;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .35s var(--ease), border-color .4s, box-shadow .4s, border-radius .4s ease;
 }
 .project-card.hidden-card { display: none; }
 
-/* Laser Scanline Beam Triggered on Filter Reveal */
 .card-laser-sweep {
   position: absolute;
   left: 0;
@@ -1168,7 +1175,7 @@ nav.s .nav-in {
   z-index: 4;
 }
 .project-card.scanning .card-laser-sweep {
-  animation: cardLaserDown .78s var(--ease) forwards;
+  animation: cardLaserDown .75s var(--ease) forwards;
 }
 @keyframes cardLaserDown {
   0% { top: -4%; opacity: .95; }
@@ -1176,12 +1183,11 @@ nav.s .nav-in {
   100% { top: 104%; opacity: 0; }
 }
 
-/* Cursor-Tracked Luminar Atmospheric Bloom */
 .project-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(540px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a) 19%, transparent), rgba(205, 203, 202, .05) 42%, transparent 72%);
+  background: radial-gradient(540px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a) calc(19% * var(--glow-int)), transparent), rgba(205, 203, 202, .05) 42%, transparent 72%);
   opacity: .35;
   transition: opacity .45s ease;
   pointer-events: none;
@@ -1194,7 +1200,7 @@ nav.s .nav-in {
   left: 0;
   right: 0;
   height: 145px;
-  background: radial-gradient(ellipse 55% 85px at var(--mx, 50%) 50%, color-mix(in srgb, var(--a) 52%, transparent), rgba(205, 203, 202, .16) 55%, transparent 80%);
+  background: radial-gradient(ellipse 55% 85px at var(--mx, 50%) 50%, color-mix(in srgb, var(--a) calc(52% * var(--glow-int)), transparent), rgba(205, 203, 202, .16) 55%, transparent 80%);
   filter: blur(22px);
   opacity: .42;
   transition: opacity .45s ease;
@@ -1228,12 +1234,18 @@ nav.s .nav-in {
   border-radius: 999px;
   background: color-mix(in srgb, var(--a) 16%, #080808);
   border: 1px solid color-mix(in srgb, var(--a) 60%, transparent);
-  font: 600 10.5px 'JetBrains Mono', monospace;
+  font: 600 10.5px var(--font-tech);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #ffffff;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   box-shadow: 0 0 18px -4px color-mix(in srgb, var(--a) 55%, transparent);
+}
+.dev-status-badge.subtle {
+  background: rgba(255, 255, 255, .03);
+  border-color: rgba(205, 203, 202, .16);
+  color: var(--c);
+  box-shadow: none;
 }
 .dev-status-badge i {
   width: 7px;
@@ -1245,7 +1257,7 @@ nav.s .nav-in {
 }
 
 .project-title {
-  font: 700 clamp(19px, 2.2vw, 23px)/1.3 'Sora', sans-serif;
+  font: 700 clamp(19px, 2.2vw, 23px)/1.3 var(--font-display);
   margin: 0 0 12px;
   letter-spacing: -.4px;
   background: var(--chrome-grad);
@@ -1253,12 +1265,7 @@ nav.s .nav-in {
   background-clip: text;
   color: transparent;
 }
-.project-tech {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
+.project-tech { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .project-tech span {
   font: 500 11px 'JetBrains Mono', monospace;
   padding: 4px 11px;
@@ -1271,292 +1278,155 @@ nav.s .nav-in {
 .project-card p {
   color: var(--c);
   opacity: .86;
-  font-size: 14.6px;
-  line-height: 1.68;
+  font-size: 14.5px;
+  line-height: 1.66;
   margin: 0;
 }
 
-/* Live Interactive Rail ETA Probability & Uncertainty Band Module */
-.eta-telemetry-box {
+/* Shared Interactive Forecast / Simulation Box for All 3 Projects */
+.sim-telemetry-box {
   position: relative;
   z-index: 1;
   background: #080808;
   border: 1px solid rgba(205, 203, 202, .14);
-  border-radius: 18px;
-  padding: 18px;
+  border-radius: var(--radius-sm);
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 11px;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, .85);
 }
-.eta-top-row {
+.sim-top-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font: 500 10px 'JetBrains Mono', monospace;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.eta-top-row strong { color: var(--a); }
-#etaCanvas {
-  width: 100%;
-  height: 135px;
-  display: block;
-}
-.eta-route-track {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  padding-top: 8px;
-  font: 500 9.5px 'JetBrains Mono', monospace;
-  color: var(--c);
-}
-.eta-route-track::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: rgba(205, 203, 202, .16);
-}
-.eta-route-progress {
-  position: absolute;
-  top: 2px;
-  left: 0;
-  height: 2px;
-  width: 45%;
-  background: var(--a);
-  box-shadow: 0 0 10px var(--a);
-  animation: trainRun 5s ease-in-out infinite alternate;
-}
-@keyframes trainRun { 0% { width: 22%; } 100% { width: 78%; } }
-
-/* Animated Micro-Telemetry Widgets Inside Secondary Project Cards */
-.proj-mini-hud {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: #080808;
-  border: 1px solid rgba(205, 203, 202, .1);
-  font: 500 10px 'JetBrains Mono', monospace;
-  letter-spacing: 1.1px;
-  text-transform: uppercase;
-  color: var(--c);
-}
-/* Pipeline Packet Flow for Operation Church */
-.node-pipeline {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-}
-.node-pipeline i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(205, 203, 202, .35);
-}
-.node-pipeline i:nth-child(1) { animation: nodePing 1.8s infinite 0s; }
-.node-pipeline i:nth-child(3) { animation: nodePing 1.8s infinite .5s; }
-.node-pipeline i:nth-child(5) { animation: nodePing 1.8s infinite 1s; }
-.node-pipeline em {
-  width: 14px;
-  height: 1.5px;
-  background: rgba(205, 203, 202, .18);
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-}
-.node-pipeline em::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--a);
-  transform: translateX(-100%);
-  animation: packetSlide 1.8s linear infinite;
-}
-@keyframes nodePing {
-  0%, 100% { background: rgba(205, 203, 202, .3); box-shadow: none; transform: scale(1); }
-  50% { background: var(--a); box-shadow: 0 0 8px var(--a); transform: scale(1.35); }
-}
-@keyframes packetSlide { to { transform: translateX(100%); } }
-
-/* Credibility Verification Gauge for InfoVerify */
-.verify-meter {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
+  font: 600 10.5px var(--font-tech);
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  color: var(--c);
 }
-.verify-track {
-  width: 58px;
-  height: 5px;
-  border-radius: 99px;
-  background: rgba(205, 203, 202, .14);
+.sim-top-row strong {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--a);
+  font-size: 10px;
+}
+.sim-canvas {
+  width: 100%;
+  height: 124px;
+  display: block;
+}
+.sim-controls {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap: 6px;
+  padding-top: 2px;
+}
+.sim-btn {
+  padding: 5px 4px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(205, 203, 202, .1);
+  color: var(--muted);
+  font: 600 9.5px 'JetBrains Mono', monospace;
+  cursor: pointer;
+  white-space: nowrap;
   overflow: hidden;
-  position: relative;
+  text-overflow: ellipsis;
+  transition: background .25s, border-color .25s, color .25s, transform .25s var(--spring);
 }
-.verify-fill {
-  position: absolute;
-  inset: 0;
-  width: 45%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--c), var(--a));
-  box-shadow: 0 0 8px var(--a);
-  animation: scanGauge 2.4s ease-in-out infinite alternate;
-}
-@keyframes scanGauge {
-  0% { transform: translateX(-15%); width: 35%; }
-  100% { transform: translateX(95%); width: 52%; }
+.sim-btn:hover, .sim-btn.active {
+  background: color-mix(in srgb, var(--a) 18%, #080808);
+  border-color: color-mix(in srgb, var(--a) 62%, transparent);
+  color: #ffffff;
+  transform: translateY(-2px);
 }
 
 /* =========================================================
-   STAGE 03: KINETIC SIGNAL TRANSMISSION HUB (NO STATIC BOX)
+   STAGE 03: HORIZON LIGHTSTAGE + VELOCITY-DAMPED LETTER ZOOM
    ========================================================= */
 .signal-stage {
   position: relative;
   text-align: center;
-  max-width: 820px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 26px 12px 12px;
+  padding: 36px 12px 16px;
   isolation: isolate;
 }
 
-/* Concentric Sonar Rings & Rotating Radar Sweep (Pure Circular Light, Zero Box) */
-.sonar-field {
+.horizon-lightstage {
   position: absolute;
-  top: 48%;
+  top: -12px;
   left: 50%;
-  width: min(520px, 92vw);
-  height: min(520px, 92vw);
-  transform: translate(-50%, -50%);
+  width: min(760px, 96vw);
+  height: 240px;
+  transform: translateX(-50%);
   pointer-events: none;
   z-index: -1;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 68% 90% at 50% 0%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 68% 90% at 50% 0%, #000 25%, transparent 78%);
 }
-.sonar-radar-beam {
+.horizon-rim {
   position: absolute;
-  inset: 12%;
+  top: 14px;
+  left: -15%;
+  right: -15%;
+  height: 360px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 72%, color-mix(in srgb, var(--a) 16%, transparent) 96%, color-mix(in srgb, var(--c) 24%, transparent) 100%);
-  -webkit-mask-image: radial-gradient(circle, transparent 18%, #000 48%, transparent 70%);
-  mask-image: radial-gradient(circle, transparent 18%, #000 48%, transparent 70%);
-  animation: orbitSpin 9s linear infinite;
-  opacity: .85;
+  border-top: 1.5px solid color-mix(in srgb, var(--c) 55%, var(--a));
+  box-shadow:
+    0 -12px 45px 4px color-mix(in srgb, var(--a) 55%, transparent),
+    inset 0 26px 55px -12px color-mix(in srgb, var(--a) 38%, transparent);
+  opacity: .82;
+  animation: breatheHorizon 5s ease-in-out infinite alternate;
 }
-.sonar-ring {
-  position: absolute;
-  inset: 18%;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--a) 42%, transparent);
-  opacity: 0;
-  animation: sonarExpand 4.8s cubic-bezier(.16, 1, .3, 1) infinite;
-}
-.sonar-ring:nth-child(2) { animation-delay: 1.6s; border-color: rgba(205, 203, 202, .22); }
-.sonar-ring:nth-child(3) { animation-delay: 3.2s; }
-@keyframes sonarExpand {
-  0% { transform: scale(.35); opacity: .75; }
-  100% { transform: scale(1.45); opacity: 0; }
+@keyframes breatheHorizon {
+  0% { opacity: .62; transform: scaleX(.98); }
+  100% { opacity: .95; transform: scaleX(1.02); }
 }
 
-/* Live Oscillating Frequency Equalizer + Transmission Badge */
-.transmission-hud {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: rgba(10, 10, 13, .85);
-  border: 1px solid color-mix(in srgb, var(--a) 45%, rgba(205, 203, 202, .16));
-  box-shadow: 0 0 28px -8px color-mix(in srgb, var(--a) 55%, transparent);
-  margin-bottom: 18px;
-}
-.eq-bars {
-  display: inline-flex;
-  align-items: center;
-  gap: 2.5px;
-  height: 14px;
-}
-.eq-bars span {
-  width: 2px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--a);
-  box-shadow: 0 0 6px var(--a);
-  animation: eqBounce 1.1s ease-in-out infinite alternate;
-}
-.eq-bars span:nth-child(1) { animation-duration: .65s; }
-.eq-bars span:nth-child(2) { animation-duration: .95s; animation-delay: .15s; background: var(--c); }
-.eq-bars span:nth-child(3) { animation-duration: .55s; animation-delay: .3s; }
-.eq-bars span:nth-child(4) { animation-duration: .85s; animation-delay: .1s; background: var(--c); }
-.eq-bars span:nth-child(5) { animation-duration: .7s; animation-delay: .25s; }
-@keyframes eqBounce {
-  0% { height: 3px; opacity: .45; }
-  100% { height: 14px; opacity: 1; }
-}
-.transmission-text {
-  font: 600 10.5px 'JetBrains Mono', monospace;
-  letter-spacing: 2px;
+.letter-dock-title {
+  font: 800 clamp(32px, 5.8vw, 68px)/1.18 var(--font-display);
+  margin: 6px 0 18px;
+  letter-spacing: -.015em;
   text-transform: uppercase;
-  color: #ffffff;
-}
-
-/* Kinetic 3D Character-Wave Headline ("GET IN TOUCH") */
-.kinetic-touch-title {
-  font: 800 clamp(34px, 5.2vw, 62px)/1.08 'Sora', sans-serif;
-  margin: 0 0 16px;
-  letter-spacing: -.03em;
-  text-transform: uppercase;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: .02em;
+  align-items: baseline;
+  white-space: nowrap;
+  padding: 12px 28px;
+  cursor: default;
+  user-select: none;
 }
-.k-word {
-  display: inline-flex;
-  margin: 0 .14em;
-}
-.k-char {
+.z-letter {
   display: inline-block;
   background: var(--chrome-grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: charFloatWave 3.6s ease-in-out infinite;
-  animation-delay: calc(var(--ci) * .08s);
-  transition: transform .3s var(--spring), color .25s, text-shadow .25s;
+  transform-origin: center 72%;
+  will-change: transform;
 }
-.k-word.accent-word .k-char {
+.z-letter.accent {
   background: none;
   -webkit-text-fill-color: var(--a);
   color: var(--a);
-  text-shadow: 0 0 32px color-mix(in srgb, var(--a) 55%, transparent);
 }
-@keyframes charFloatWave {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -6px, 0); }
-}
-@media (hover: hover) and (pointer: fine) {
-  .k-char:hover {
-    transform: translate3d(0, -12px, 0) scale(1.14) !important;
-    -webkit-text-fill-color: #ffffff;
-    text-shadow: 0 0 24px var(--a);
-  }
+.z-space {
+  display: inline-block;
+  width: .34em;
+  pointer-events: none;
 }
 
 .signal-sub {
   color: var(--c);
-  opacity: .86;
+  opacity: .88;
   font-size: 15.5px;
   max-width: 520px;
-  margin: 0 auto 20px;
+  margin: 0 auto 22px;
 }
 
-/* Animated Floating Availability / Opportunity Chips */
 .opp-orbit-row {
   display: flex;
   justify-content: center;
@@ -1571,57 +1441,60 @@ nav.s .nav-in {
   gap: 8px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(13, 13, 16, .85);
-  border: 1px solid rgba(205, 203, 202, .15);
-  font: 500 11px 'JetBrains Mono', monospace;
-  letter-spacing: .7px;
+  background: rgba(13, 13, 16, .88);
+  border: 1px solid rgba(205, 203, 202, .14);
+  font: 500 12px var(--font-tech);
   color: var(--c);
-  animation: hudFloat 4.5s ease-in-out infinite;
-  animation-delay: var(--od, 0s);
-  transition: border-color .3s, color .3s, transform .3s var(--spring), box-shadow .3s;
+  transition: border-color .28s, color .28s, transform .28s var(--spring), box-shadow .28s;
 }
-.opp-chip i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--a);
-  box-shadow: 0 0 8px var(--a);
-  animation: dotVanish 1.8s infinite;
-  animation-delay: var(--od, 0s);
-}
+.opp-chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--a); box-shadow: 0 0 8px var(--a); }
 @media (hover: hover) and (pointer: fine) {
   .opp-chip:hover {
+    transform: translateY(-3px);
     border-color: var(--a);
     color: #ffffff;
-    box-shadow: 0 8px 22px -6px color-mix(in srgb, var(--a) 55%, transparent);
+    box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--a) 55%, transparent);
   }
 }
 
-/* Spinning Conic Laser-Beam Compact Gmail Capsule (Icon-Only Copy) */
-.laser-mail-shell {
+/* Compact Gmail Capsule with Smooth Post-Copy Decode + Emerald Curtain */
+.liquid-mail-wrap {
   position: relative;
   display: inline-flex;
-  padding: 2px;
+  padding: 1.5px;
   border-radius: 999px;
-  overflow: hidden;
+  background: conic-gradient(
+    from var(--aura-angle),
+    var(--a) 0deg,
+    color-mix(in srgb, var(--c) 70%, var(--a)) 95deg,
+    rgba(205, 203, 202, .22) 180deg,
+    color-mix(in srgb, var(--a) 55%, #121216) 270deg,
+    var(--a) 360deg
+  );
+  animation: liquidAuraSpin 4.8s linear infinite;
+  box-shadow: 0 14px 36px -10px color-mix(in srgb, var(--a) 48%, transparent);
+  transition: transform .35s var(--spring), box-shadow .35s ease;
   isolation: isolate;
-  box-shadow: 0 16px 42px -10px color-mix(in srgb, var(--a) 58%, transparent);
-  transition: transform .4s var(--spring), box-shadow .4s ease;
 }
-.laser-mail-shell::before {
+.liquid-mail-wrap::after {
   content: "";
   position: absolute;
-  inset: -160%;
-  background: conic-gradient(from 0deg, transparent 0%, rgba(205, 203, 202, .25) 20%, var(--a) 45%, #ffffff 50%, var(--a) 55%, transparent 75%);
-  animation: orbitSpin 3.4s linear infinite;
+  inset: -3px;
+  border-radius: 999px;
+  background: inherit;
+  filter: blur(10px);
+  opacity: .52;
   z-index: -1;
+  transition: opacity .35s ease, filter .35s ease;
 }
+@keyframes liquidAuraSpin { to { --aura-angle: 360deg; } }
+
 .copy-mail-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 7px 6px 11px;
+  padding: 6px 7px 6px 10px;
   border-radius: 999px;
   background: #080808;
   border: 0;
@@ -1629,24 +1502,58 @@ nav.s .nav-in {
   font: 500 clamp(12.5px, 3.4vw, 14px) 'JetBrains Mono', monospace;
   cursor: pointer;
   max-width: 100%;
-  transition: background .3s;
+  overflow: hidden;
+  isolation: isolate;
 }
-.laser-mail-shell:active { transform: scale(.95); }
+.copy-mail-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #047857, #10b981, #059669);
+  transform: translateX(-102%);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+  z-index: -1;
+}
+.copy-mail-btn.copied::before { transform: translateX(0); }
+
+.liquid-mail-wrap:active { transform: scale(.95); }
 .mail-left { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .mail-icon-box {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   background: color-mix(in srgb, var(--a) 18%, #080808);
-  border: 1px solid color-mix(in srgb, var(--a) 52%, transparent);
+  border: 1px solid color-mix(in srgb, var(--a) 50%, transparent);
   display: grid;
   place-items: center;
   font-size: 13.5px;
   color: var(--a);
   flex-shrink: 0;
-  transition: transform .35s var(--spring), background .3s, color .3s;
+  transition: transform .38s var(--spring), background .3s, border-color .3s, color .3s;
 }
-.mail-address { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mail-text-slot {
+  position: relative;
+  display: inline-grid;
+  align-items: center;
+  justify-items: center;
+  height: 22px;
+}
+.mail-sizer {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.mail-live-text {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  color: #ffffff;
+}
+.copy-mail-btn.copied .m-ch.decoding {
+  color: #d1fae5;
+  -webkit-text-fill-color: #d1fae5;
+  opacity: .55;
+}
 .copy-pill {
   width: 30px;
   height: 30px;
@@ -1658,51 +1565,47 @@ nav.s .nav-in {
   font-size: 13.5px;
   color: var(--c);
   flex-shrink: 0;
-  transition: background .3s, color .3s, border-color .3s, transform .35s var(--spring);
+  transition: background .3s, color .3s, border-color .3s, transform .38s var(--spring);
 }
 @media (hover: hover) and (pointer: fine) {
-  .laser-mail-shell:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 22px 48px -8px color-mix(in srgb, var(--a) 75%, transparent);
+  .liquid-mail-wrap:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 44px -8px color-mix(in srgb, var(--a) 68%, transparent);
   }
-  .laser-mail-shell:hover .mail-icon-box { background: var(--a); color: #fff; transform: rotate(-10deg) scale(1.08); }
-  .laser-mail-shell:hover .copy-pill { background: var(--a); color: #fff; border-color: var(--a); transform: rotate(10deg) scale(1.08); }
+  .liquid-mail-wrap:hover::after { opacity: .82; filter: blur(14px); }
+  .liquid-mail-wrap:hover .mail-icon-box { background: var(--a); color: #fff; transform: rotate(-8deg) scale(1.08); }
+  .liquid-mail-wrap:hover .copy-pill { background: var(--a); color: #fff; border-color: var(--a); transform: rotate(8deg) scale(1.08); }
 }
-.laser-mail-shell.copied { box-shadow: 0 18px 42px -8px rgba(16, 185, 129, .55); }
-.laser-mail-shell.copied::before {
-  background: conic-gradient(from 0deg, transparent 0%, #10b981 45%, #ffffff 50%, #34d399 55%, transparent 80%);
+.liquid-mail-wrap.copied {
+  background: conic-gradient(from var(--aura-angle), #10b981, #a7f3d0, #059669, #10b981);
+  box-shadow: 0 20px 46px -8px rgba(16, 185, 129, .62);
 }
 .copy-mail-btn.copied .mail-icon-box,
-.copy-mail-btn.copied .copy-pill { background: rgba(16, 185, 129, .22); border-color: #10b981; color: #34d399; }
-
-/* Expanding Copy Shockwave Ring */
+.copy-mail-btn.copied .copy-pill {
+  background: rgba(255, 255, 255, .22);
+  border-color: rgba(255, 255, 255, .45);
+  color: #ffffff;
+  transform: scale(1.08);
+}
 .copy-shockwave {
   position: fixed;
   border-radius: 50%;
-  border: 1.5px solid var(--a);
+  border: 1.5px solid #10b981;
   pointer-events: none;
   z-index: 5900;
 }
 
-/* Bigger Interactive Social Bento Tiles ABOVE Footer Line */
-.bottom-socials-wrap {
-  max-width: 900px;
-  margin: 38px auto 0;
-  width: 100%;
-}
-.big-socials-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
+/* Social Bento Tiles — Usernames Revealed Smoothly on Cursor Hover */
+.bottom-socials-wrap { max-width: 920px; margin: 38px auto 0; width: 100%; }
+.big-socials-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .big-soc-tile {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
+  min-height: 122px;
   padding: 20px;
-  border-radius: 18px;
+  border-radius: var(--radius);
   background: #0d0d10;
   border: 1px solid rgba(205, 203, 202, .12);
   color: var(--t);
@@ -1710,7 +1613,7 @@ nav.s .nav-in {
   text-align: left;
   overflow: hidden;
   isolation: isolate;
-  transition: transform .38s var(--spring), border-color .35s, box-shadow .4s;
+  transition: transform .36s var(--spring), border-color .35s, box-shadow .4s, border-radius .4s ease;
 }
 .big-soc-tile:active { transform: scale(.96); }
 .big-soc-tile::before {
@@ -1719,7 +1622,7 @@ nav.s .nav-in {
   inset: 0;
   background: var(--tile-grad);
   opacity: 0;
-  transition: opacity .38s ease;
+  transition: opacity .36s ease;
   z-index: -1;
 }
 .big-soc-tile::after {
@@ -1731,15 +1634,10 @@ nav.s .nav-in {
   height: 200%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .16), transparent);
   transform: rotate(25deg);
-  transition: left .65s var(--ease);
+  transition: left .6s var(--ease);
   pointer-events: none;
 }
-.tile-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
+.tile-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .big-soc-icon {
   width: 44px;
   height: 44px;
@@ -1750,29 +1648,26 @@ nav.s .nav-in {
   place-items: center;
   font-size: 20px;
   color: var(--c);
-  transition: transform .4s var(--spring), background .35s, border-color .35s, color .35s;
+  transition: transform .38s var(--spring), background .35s, border-color .35s, color .35s;
 }
-.tile-arrow {
-  font: 600 13px 'JetBrains Mono', monospace;
-  color: var(--muted);
-  transition: transform .35s var(--spring), color .3s;
-}
-.big-soc-info strong {
-  display: block;
-  font: 700 15px 'Sora', sans-serif;
-  color: #fff;
-  margin-bottom: 2px;
-}
-.big-soc-info span {
+.tile-arrow { font: 600 13px 'JetBrains Mono', monospace; color: var(--muted); transition: transform .35s var(--spring), color .3s; }
+.big-soc-info { display: flex; flex-direction: column; }
+.big-soc-info strong { display: block; font: 700 15.5px var(--font-display); color: #ffffff; }
+.tile-handle {
   display: block;
   font: 500 11.5px 'JetBrains Mono', monospace;
-  color: var(--muted);
+  color: rgba(255, 255, 255, .92);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: color .3s;
 }
 @media (hover: hover) and (pointer: fine) {
+  .tile-handle {
+    max-height: 0;
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    transition: max-height .32s var(--ease), opacity .28s var(--ease), transform .34s var(--spring), margin-top .28s var(--ease);
+  }
   .big-soc-tile:hover {
     transform: translateY(-6px) scale(1.02);
     border-color: var(--tile-border, var(--a));
@@ -1782,27 +1677,210 @@ nav.s .nav-in {
   .big-soc-tile:hover::after { left: 140%; }
   .big-soc-tile:hover .big-soc-icon {
     transform: scale(1.1) rotate(-6deg);
-    background: rgba(255, 255, 255, .14);
-    border-color: rgba(255, 255, 255, .34);
+    background: rgba(255, 255, 255, .15);
+    border-color: rgba(255, 255, 255, .36);
     color: #fff;
   }
   .big-soc-tile:hover .tile-arrow { transform: translate(3px, -3px); color: #fff; }
-  .big-soc-tile:hover .big-soc-info span { color: rgba(255, 255, 255, .88); }
+  .big-soc-tile:hover .tile-handle { max-height: 24px; opacity: 1; margin-top: 4px; transform: translate3d(0, 0, 0); }
+}
+@media (hover: none) {
+  .tile-handle { color: var(--muted); margin-top: 3px; }
 }
 
-.tile-gh { --tile-grad: linear-gradient(135deg, rgba(32, 32, 38, .96), rgba(212, 21, 20, .8)); --tile-glow: rgba(212, 21, 20, .48); --tile-border: #D41514; }
-.tile-in { --tile-grad: linear-gradient(135deg, rgba(10, 102, 194, .92), rgba(0, 160, 220, .82)); --tile-glow: rgba(10, 102, 194, .5); --tile-border: #0a66c2; }
-.tile-ig { --tile-grad: linear-gradient(135deg, rgba(245, 133, 41, .9), rgba(221, 42, 123, .88), rgba(129, 52, 175, .9)); --tile-glow: rgba(221, 42, 123, .5); --tile-border: #dd2a7b; }
+.tile-gh { --tile-grad: linear-gradient(135deg, rgba(32, 32, 38, .96), rgba(212, 21, 20, .82)); --tile-glow: rgba(212, 21, 20, .48); --tile-border: #D41514; }
+.tile-in { --tile-grad: linear-gradient(135deg, rgba(10, 102, 194, .92), rgba(0, 160, 220, .84)); --tile-glow: rgba(10, 102, 194, .5); --tile-border: #0a66c2; }
+.tile-ig { --tile-grad: linear-gradient(135deg, rgba(245, 133, 41, .92), rgba(221, 42, 123, .9), rgba(129, 52, 175, .92)); --tile-glow: rgba(221, 42, 123, .5); --tile-border: #dd2a7b; }
 .tile-gm { --tile-grad: linear-gradient(135deg, rgba(212, 21, 20, .92), rgba(130, 8, 8, .92)); --tile-glow: rgba(212, 21, 20, .55); --tile-border: #D41514; }
 
-/* Footer Line & Completely Disguised Easter Egg Trigger */
+/* =========================================================
+   FOOTER + FULL IN-PAGE CUSTOMIZATION CONTROL SUITE (EASTER EGG)
+   ========================================================= */
 footer {
+  position: relative;
   text-align: center;
-  padding: 30px 5% 44px;
+  padding: 28px 5% 46px;
   border-top: 1px solid var(--line);
-  margin-top: 20px;
+  margin-top: 24px;
+  overflow: hidden;
 }
+.footer-unlock-beam {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c), var(--a), #ffffff, var(--a), transparent);
+  box-shadow: 0 0 18px var(--a);
+  opacity: 0;
+  pointer-events: none;
+}
+footer.studio-open .footer-unlock-beam {
+  animation: footerBeamSweep .9s var(--ease) forwards;
+}
+@keyframes footerBeamSweep {
+  0% { left: -100%; opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.inline-studio-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    grid-template-rows .55s cubic-bezier(.22, 1, .36, 1),
+    opacity .4s var(--ease),
+    transform .5s var(--ease),
+    margin-bottom .45s var(--ease);
+  max-width: 1020px;
+  margin: 0 auto;
+}
+footer.studio-open .inline-studio-shell {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  margin-bottom: 28px;
+}
+.inline-studio-inner { overflow: hidden; }
+.studio-dock {
+  background: linear-gradient(180deg, rgba(16, 16, 20, .96), rgba(9, 9, 12, .99));
+  border: 1px solid color-mix(in srgb, var(--a) 42%, rgba(205, 203, 202, .16));
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  box-shadow: 0 24px 60px -16px rgba(0, 0, 0, .92), inset 0 1px 0 rgba(255, 255, 255, .07);
+  text-align: left;
+}
+.studio-dock-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(205, 203, 202, .1);
+}
+.studio-dock-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 16px var(--font-display);
+  color: #ffffff;
+}
+.preset-badge {
+  font: 600 9.5px 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--a) 18%, transparent);
+  color: var(--a);
+  border: 1px solid color-mix(in srgb, var(--a) 45%, transparent);
+}
+.studio-head-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.studio-action-pill {
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(205, 203, 202, .15);
+  color: var(--c);
+  font: 600 11px var(--font-tech);
+  cursor: pointer;
+  transition: background .25s, border-color .25s, color .25s, transform .25s var(--spring);
+}
+.studio-action-pill:hover {
+  background: color-mix(in srgb, var(--a) 22%, #080808);
+  border-color: var(--a);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.studio-section-label {
+  font: 600 10.5px 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--muted);
+  margin: 0 0 10px;
+  display: block;
+}
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.preset-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: #080808;
+  border: 1px solid var(--line);
+  color: var(--c);
+  font: 600 12px var(--font-tech);
+  cursor: pointer;
+  transition: transform .28s var(--spring), border-color .25s, background .25s, color .25s;
+}
+.preset-card:hover { transform: translateY(-2px); border-color: rgba(205, 203, 202, .32); color: #ffffff; }
+.preset-card.active {
+  border-color: var(--a);
+  background: color-mix(in srgb, var(--a) 14%, #080808);
+  color: #ffffff;
+  box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--a) 55%, transparent);
+}
+.preset-swatches { display: flex; align-items: center; flex-shrink: 0; }
+.preset-swatches span { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid #0d0d10; margin-left: -4px; }
+.preset-swatches span:first-child { margin-left: 0; }
+
+/* Expanded Multi-System Customizer Controls Grid */
+.customizer-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.cust-group {
+  background: #080808;
+  border: 1px solid rgba(205, 203, 202, .1);
+  border-radius: 14px;
+  padding: 14px;
+}
+.cust-group-title {
+  font: 600 11px var(--font-tech);
+  text-transform: uppercase;
+  letter-spacing: .9px;
+  color: #ffffff;
+  margin-bottom: 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cust-group-title small { color: var(--a); font: 500 9.5px 'JetBrains Mono', monospace; }
+.cust-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.cust-opt {
+  flex: 1 1 auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(205, 203, 202, .1);
+  color: var(--muted);
+  font: 600 10.5px var(--font-tech);
+  cursor: pointer;
+  text-align: center;
+  transition: background .22s, border-color .22s, color .22s, transform .22s var(--spring);
+}
+.cust-opt:hover { color: #ffffff; border-color: rgba(205, 203, 202, .25); }
+.cust-opt.active {
+  background: color-mix(in srgb, var(--a) 20%, #080808);
+  border-color: var(--a);
+  color: #ffffff;
+}
+
 footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px; }
+/* Completely Disguised Easter Egg Trigger — Zero Visual Difference */
 #secretFocusTrigger {
   color: inherit;
   font: inherit;
@@ -1819,13 +1897,13 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   z-index: 6000;
 }
 
-/* Command Palette Modal */
+/* Quick Jump Modal */
 .cmd-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 4, 5, .86);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(4, 4, 6, .86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 4800;
   display: flex;
   justify-content: center;
@@ -1833,78 +1911,33 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   padding: 11vh 16px 20px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .3s ease, visibility .3s ease;
+  transition: opacity .24s ease, visibility .24s ease;
 }
 .cmd-overlay.active { opacity: 1; visibility: visible; }
 .cmd-box {
   width: 100%;
-  max-width: 550px;
+  max-width: 540px;
   background: #0d0d10;
   border: 1px solid color-mix(in srgb, var(--a) 50%, rgba(205, 203, 202, .2));
-  border-radius: 20px;
+  border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 35px 90px rgba(0, 0, 0, .92);
-  transform: translate3d(0, -18px, 0) scale(.96);
-  transition: transform .38s var(--spring);
+  transform: translate3d(0, -14px, 0) scale(.97);
+  transition: transform .3s var(--spring);
 }
 .cmd-overlay.active .cmd-box { transform: translate3d(0, 0, 0) scale(1); }
 .cmd-head { display: flex; align-items: center; gap: 12px; padding: 15px 18px; border-bottom: 1px solid var(--line); }
 .cmd-head svg { color: var(--a); font-size: 18px; flex-shrink: 0; }
-.cmd-input { flex: 1; background: transparent; border: 0; color: #fff; font: 500 15px 'Plus Jakarta Sans', sans-serif; outline: none; min-width: 0; }
+.cmd-input { flex: 1; background: transparent; border: 0; color: #fff; font: 500 15px var(--font-body); outline: none; min-width: 0; }
 .cmd-input::placeholder { color: var(--muted); }
 .cmd-kbd { font: 600 10px 'JetBrains Mono', monospace; padding: 4px 8px; border-radius: 6px; background: rgba(205, 203, 202, .08); border: 1px solid rgba(205, 203, 202, .16); color: var(--c); cursor: pointer; }
 .cmd-list { max-height: 290px; overflow-y: auto; padding: 8px; }
-.cmd-item { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 12px; background: transparent; border: 0; color: var(--c); font: 500 13.5px 'Plus Jakarta Sans', sans-serif; cursor: pointer; text-align: left; }
+.cmd-item { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 12px; background: transparent; border: 0; color: var(--c); font: 500 13.5px var(--font-body); cursor: pointer; text-align: left; }
 .cmd-item:hover, .cmd-item.selected { background: color-mix(in srgb, var(--a) 18%, rgba(255, 255, 255, .04)); color: #fff; }
-.cmd-item small { font: 500 10px 'JetBrains Mono', monospace; text-transform: uppercase; color: var(--a); }
-.cmd-foot { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; background: #080808; border-top: 1px solid var(--line); font: 500 10.5px 'JetBrains Mono', monospace; color: var(--muted); }
+.cmd-item small { font: 600 10px var(--font-tech); text-transform: uppercase; letter-spacing: .8px; color: var(--a); }
+.cmd-foot { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; background: #080808; border-top: 1px solid var(--line); font: 500 11px var(--font-tech); color: var(--muted); }
 
-/* Exclusive Easter Egg Customize Presets Panel */
-.preset-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 4, 6, .86);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  z-index: 4500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 18px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .35s ease, visibility .35s ease;
-}
-.preset-modal-overlay.active { opacity: 1; visibility: visible; }
-.preset-panel {
-  width: 100%;
-  max-width: 560px;
-  max-height: 88vh;
-  overflow-y: auto;
-  background: #0d0d10;
-  border: 1px solid rgba(205, 203, 202, .16);
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .9);
-  transform: translate3d(0, 24px, 0) scale(.95);
-  transition: transform .42s var(--spring);
-}
-.preset-modal-overlay.active .preset-panel { transform: translate3d(0, 0, 0) scale(1); }
-.preset-panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
-.preset-panel-head h3 { font: 700 20px 'Sora', sans-serif; margin: 0 0 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.preset-badge { font: 600 10px 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 99px; background: color-mix(in srgb, var(--a) 18%, transparent); color: var(--a); border: 1px solid color-mix(in srgb, var(--a) 45%, transparent); }
-.preset-panel-head p { margin: 0; font-size: 13px; color: var(--c); opacity: .78; }
-.close-preset-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); color: var(--c); font-size: 20px; cursor: pointer; display: grid; place-items: center; transition: transform .3s var(--spring), border-color .25s, color .25s; }
-.close-preset-btn:hover { color: #fff; border-color: var(--a); transform: rotate(90deg); }
-.preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.preset-card { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; border-radius: 14px; background: #080808; border: 1px solid var(--line); color: var(--t); font: 600 13px 'Space Grotesk', sans-serif; cursor: pointer; transition: transform .25s var(--spring), border-color .25s, background .25s; }
-.preset-card:hover { transform: translateY(-2px); border-color: rgba(205, 203, 202, .28); }
-.preset-card.active { border-color: var(--a); background: color-mix(in srgb, var(--a) 12%, #080808); }
-.preset-swatches { display: flex; align-items: center; }
-.preset-swatches span { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #0d0d10; margin-left: -4px; }
-.preset-swatches span:first-child { margin-left: 0; }
-
-/* Multi-Stage Animated Rocket Back-to-Top Button */
+/* Rocket Back-to-Top Button */
 #top {
   position: fixed;
   right: 20px;
@@ -1949,7 +1982,7 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   #top:hover { transform: translateY(-5px) scale(1.08); border-color: var(--a); box-shadow: 0 16px 35px -6px color-mix(in srgb, var(--a) 70%, transparent); }
   #top:hover .top-arrows svg { animation: arrowBoost .6s var(--ease) infinite; }
   #top:hover .top-arrows svg:nth-child(2) { animation-delay: .12s; }
-  #top .top-label { display: block; position: absolute; right: 64px; background: #0d0d10; border: 1px solid color-mix(in srgb, var(--a) 45%, var(--line)); color: #fff; font: 600 10.5px 'JetBrains Mono', monospace; letter-spacing: .8px; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; white-space: nowrap; opacity: 0; transform: translateX(10px); transition: opacity .3s, transform .35s var(--spring); pointer-events: none; }
+  #top .top-label { display: block; position: absolute; right: 64px; background: #0d0d10; border: 1px solid color-mix(in srgb, var(--a) 45%, var(--line)); color: #fff; font: 600 11px var(--font-tech); letter-spacing: .6px; padding: 6px 12px; border-radius: 999px; white-space: nowrap; opacity: 0; transform: translateX(10px); transition: opacity .3s, transform .35s var(--spring); pointer-events: none; }
   #top:hover .top-label { opacity: 1; transform: translateX(0); }
 }
 @keyframes arrowBoost { 0% { transform: translateY(12px) scale(.8); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-12px) scale(1.05); opacity: 0; } }
@@ -1964,7 +1997,7 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   transform: translate3d(-50%, 150%, 0);
   background: rgba(12, 12, 15, .96);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--a);
+  border: 1px solid #10b981;
   border-radius: 999px;
   padding: 9px 18px 9px 11px;
   display: flex;
@@ -1973,21 +2006,19 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   z-index: 5500;
   opacity: 0;
   pointer-events: none;
-  transition: transform .5s var(--spring), opacity .35s;
+  transition: transform .48s var(--spring), opacity .32s;
   box-shadow: 0 20px 50px rgba(0, 0, 0, .85);
 }
 #toast.show { transform: translate3d(-50%, 0, 0); opacity: 1; }
-.toast-badge { width: 28px; height: 28px; border-radius: 50%; background: var(--a); color: #fff; display: grid; place-items: center; font-size: 14px; flex-shrink: 0; box-shadow: 0 0 12px var(--a); }
-.toast-text strong { display: block; font: 600 12px 'Space Grotesk', sans-serif; color: #fff; }
+.toast-badge { width: 28px; height: 28px; border-radius: 50%; background: #10b981; color: #fff; display: grid; place-items: center; font-size: 14px; flex-shrink: 0; box-shadow: 0 0 12px rgba(16, 185, 129, .6); }
+.toast-text strong { display: block; font: 600 12px var(--font-tech); color: #fff; }
 .toast-text span { display: block; font-size: 11px; color: var(--c); opacity: .85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* Animated 3D Resume Modal */
+/* Zero-Lag Deferred Resume Viewer */
 .resume-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 4, 6, .88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(5, 5, 7, .92);
   z-index: 4600;
   display: flex;
   justify-content: center;
@@ -1995,69 +2026,73 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   padding: 16px;
   opacity: 0;
   visibility: hidden;
-  perspective: 1400px;
-  transition: opacity .4s var(--ease), visibility .4s;
+  pointer-events: none;
+  will-change: opacity;
+  transition: opacity .26s cubic-bezier(.22, 1, .36, 1), visibility .26s;
 }
-.resume-modal-overlay.active { opacity: 1; visibility: visible; }
+.resume-modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
 .resume-window {
   width: 100%;
   max-width: 1020px;
   height: min(86vh, 86svh);
   background: var(--panel);
   border: 1px solid color-mix(in srgb, var(--a) 55%, rgba(205, 203, 202, .2));
-  border-radius: 18px;
+  border-radius: var(--radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transform: translate3d(0, 48px, 0) scale(.88) rotateX(12deg);
+  transform: translate3d(0, 22px, 0) scale(.96);
   opacity: 0;
-  transition: transform .6s var(--spring), opacity .4s var(--ease);
-  box-shadow: 0 35px 90px rgba(0, 0, 0, .92);
+  will-change: transform, opacity;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1), opacity .24s ease;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, .92);
 }
-.resume-modal-overlay.active .resume-window { transform: translate3d(0, 0, 0) scale(1) rotateX(0deg); opacity: 1; }
+.resume-modal-overlay.active .resume-window { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
 .resume-topbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; background: #080808; border-bottom: 1px solid var(--line); }
-.resume-topbar-title { display: flex; align-items: center; gap: 9px; font: 600 11.5px 'JetBrains Mono', monospace; letter-spacing: .8px; text-transform: uppercase; color: var(--c); }
+.resume-topbar-title { display: flex; align-items: center; gap: 9px; font: 600 12px var(--font-tech); letter-spacing: .6px; color: var(--c); }
 .resume-topbar-dots { display: flex; gap: 5px; }
 .resume-topbar-dots span { width: 8px; height: 8px; border-radius: 50%; }
-.resume-topbar-dots span:nth-child(1) { background: var(--a); box-shadow: 0 0 8px var(--a); }
+.resume-topbar-dots span:nth-child(1) { background: var(--a); }
 .resume-topbar-dots span:nth-child(2) { background: var(--c); }
 .resume-topbar-dots span:nth-child(3) { background: #3f3f46; }
 .resume-actions { display: flex; align-items: center; gap: 8px; }
-.resume-dl-btn { padding: 6px 12px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--a) 55%, rgba(205, 203, 202, .2)); background: color-mix(in srgb, var(--a) 14%, #080808); color: #fff; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .7px; text-transform: uppercase; }
-.close-resume { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255, 255, 255, .05); font-size: 19px; color: var(--c); cursor: pointer; display: grid; place-items: center; }
-.resume-iframe-container { flex: 1; width: 100%; background: #fff; }
+.resume-dl-btn { padding: 6px 13px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--a) 55%, rgba(205, 203, 202, .2)); background: color-mix(in srgb, var(--a) 14%, #080808); color: #fff; font: 600 11px var(--font-tech); transition: background .2s, border-color .2s; }
+.resume-dl-btn:hover { background: var(--a); border-color: var(--a); }
+.close-resume { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255, 255, 255, .05); font-size: 19px; color: var(--c); cursor: pointer; display: grid; place-items: center; transition: background .2s, color .2s, transform .25s var(--spring); }
+.close-resume:hover { background: var(--a); color: #fff; transform: rotate(90deg); }
+.resume-iframe-container { position: relative; flex: 1; width: 100%; background: #0d0d10; }
+.resume-loader { position: absolute; inset: 0; display: grid; place-items: center; color: var(--c); font: 500 13px var(--font-tech); letter-spacing: .6px; transition: opacity .25s ease; }
+.resume-loader.done { opacity: 0; pointer-events: none; }
+#resumeFrame { position: relative; z-index: 2; width: 100%; height: 100%; border: 0; opacity: 0; background: #ffffff; transition: opacity .28s ease; }
+#resumeFrame.ready { opacity: 1; }
 
 /* Responsive Breakpoints */
-@media (max-width: 1120px) {
-  .stage-rail { display: none; }
-}
+@media (max-width: 1120px) { .stage-rail { display: none; } }
 @media (max-width: 980px) {
   .nav-center { display: none; }
   .mobile-menu-btn { display: grid; }
   .hero-split { grid-template-columns: 1fr; gap: 24px; }
   .hero-core-stage { height: 340px; order: -1; margin-bottom: -10px; }
   .bento-about-grid { grid-template-columns: 1fr; }
-  .project-card.featured-span { grid-template-columns: 1fr; }
-  .projects-bento { grid-template-columns: 1fr; }
+  .project-card { grid-template-columns: 1fr; }
   .big-socials-grid { grid-template-columns: repeat(2, 1fr); }
+  .preset-grid { grid-template-columns: repeat(2, 1fr); }
+  .customizer-controls-grid { grid-template-columns: repeat(2, 1fr); }
   .stage-section { padding: 92px 5% 68px; margin-bottom: 18svh; }
 }
 @media (max-width: 580px) {
   .logo b, .logo span.immanuel-font { font-size: 18px; }
   .resume-link { padding: 7px 12px; font-size: 10px; }
   .hero-core-stage { height: 270px; }
-  .core-hud-tag { font-size: 9px; padding: 5px 9px; }
   .hero-cta-row .btn { width: 100%; justify-content: space-between; }
   .stack-matrix { grid-template-columns: 1fr; }
   .bio-bento, .project-card { padding: 24px 20px; }
-  .telemetry-metrics { gap: 8px; }
-  .metric-box strong { font-size: 18px; }
   .project-filters { width: 100%; justify-content: center; border-radius: 18px; padding: 6px; }
   .filter-btn { padding: 7px 11px; font-size: 10px; }
+  .letter-dock-title { padding: 8px 6px; }
   .big-socials-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .big-soc-tile { padding: 15px; gap: 14px; }
-  .preset-grid { grid-template-columns: 1fr; }
-  .sonar-field { width: 320px; height: 320px; }
+  .big-soc-tile { padding: 15px; min-height: 112px; }
+  .preset-grid, .customizer-controls-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
@@ -2090,15 +2125,15 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 </div>
 <div class="cursor-aura" id="cursorAura"></div>
 
-<!-- Side Stage Telemetry Rail -->
-<aside class="stage-rail" aria-label="Section stage navigation">
-  <button type="button" class="rail-item on" data-target="#hero"><span class="rail-dot"></span><span class="rail-label">00 // Core</span></button>
+<!-- Side Stage Navigation Rail -->
+<aside class="stage-rail" aria-label="Section navigation">
+  <button type="button" class="rail-item on" data-target="#hero"><span class="rail-dot"></span><span class="rail-label">00 // Intro</span></button>
   <button type="button" class="rail-item" data-target="#about"><span class="rail-dot"></span><span class="rail-label">01 // Stack</span></button>
-  <button type="button" class="rail-item" data-target="#work"><span class="rail-dot"></span><span class="rail-label">02 // Works</span></button>
-  <button type="button" class="rail-item" data-target="#contact"><span class="rail-dot"></span><span class="rail-label">03 // Signal</span></button>
+  <button type="button" class="rail-item" data-target="#work"><span class="rail-dot"></span><span class="rail-label">02 // Projects</span></button>
+  <button type="button" class="rail-item" data-target="#contact"><span class="rail-dot"></span><span class="rail-label">03 // Contact</span></button>
 </aside>
 
-<!-- Top Floating HUD Bar (Color Changer Removed — Easter Egg Exclusive) -->
+<!-- Top Floating Navigation Bar -->
 <nav id="nav">
   <div class="nav-in">
     <a href="#hero" class="logo nav-scroll"><b>Jebaraj</b><span class="immanuel-font">Immanuel</span><u>.</u></a>
@@ -2112,16 +2147,16 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
       </div>
       <div class="nav-divider"></div>
       <div class="soc">
-        <button type="button" class="soc-btn" id="openCmdBtn" data-b="cmd" data-tip="Command (Ctrl+K)" aria-label="Open Command Palette"><svg class="i"><use href="#srch"/></svg></button>
-        <a class="soc-btn" data-b="gh" data-tip="GitHub" href="https://github.com/Jrajimman12" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#gh"/></svg></a>
-        <a class="soc-btn" data-b="in" data-tip="LinkedIn" href="https://www.linkedin.com/in/jebarajimmanuel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i"><use href="#in"/></svg></a>
-        <a class="soc-btn" data-b="ig" data-tip="Instagram" href="https://www.instagram.com/jebaraj__immanuel/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i"><use href="#ig"/></svg></a>
-        <button type="button" class="soc-btn copy-gmail-icon" data-b="gm" data-tip="Copy Gmail" aria-label="Copy Gmail jebarajimman12@gmail.com"><svg class="i"><use href="#gm"/></svg></button>
+        <button type="button" class="soc-btn" id="openCmdBtn" data-b="cmd" data-tip="Quick Jump (Ctrl+K)" aria-label="Open Quick Jump"><svg class="i"><use href="#srch"/></svg></button>
+        <a class="soc-btn" data-b="gh" data-tip="@Jrajimman12" href="https://github.com/Jrajimman12" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#gh"/></svg></a>
+        <a class="soc-btn" data-b="in" data-tip="in/jebarajimmanuel" href="https://www.linkedin.com/in/jebarajimmanuel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i"><use href="#in"/></svg></a>
+        <a class="soc-btn" data-b="ig" data-tip="@jebaraj__immanuel" href="https://www.instagram.com/jebaraj__immanuel/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i"><use href="#ig"/></svg></a>
+        <button type="button" class="soc-btn copy-gmail-icon" data-b="gm" data-tip="jebarajimman12@gmail.com" aria-label="Copy Gmail jebarajimman12@gmail.com"><svg class="i"><use href="#gm"/></svg></button>
       </div>
     </div>
 
     <div class="nav-right">
-      <a href="#" class="resume-link" id="openResumeNav">Resume <span>↗</span></a>
+      <a href="#" class="resume-link" id="openResumeNav"><span>Resume</span> <span class="arr">↗</span></a>
       <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu" aria-expanded="false">
         <span class="burger-lines"><span></span><span></span></span>
       </button>
@@ -2146,7 +2181,7 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 </div>
 
 <!-- =========================================================
-     STAGE 00: ASYMMETRIC EDITORIAL HERO + 3D CYBERNETIC CORE
+     STAGE 00: HERO (HEADING #1 OF 4 WITH SMOOTH DECODE)
      ========================================================= -->
 <header id="hero" class="stage-section">
   <div class="stage-guard stage-active">
@@ -2155,16 +2190,16 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
         <div class="hero-laser-spec">
           <div class="laser-v-bar"></div>
           <div class="spec-lines">
-            <strong><i></i> B.Tech IT</strong>
-            <span>Final Year Student</span>
-            <span>Cohort // 2023—2027</span>
+            <!-- Heading 1 of 4 with Smooth Decode -->
+            <strong><i></i> <span class="heading-decode" data-heading-decode data-delay="220">B.Tech IT • Final Year Student</span></strong>
+            <span>2023 — 2027 Cohort</span>
           </div>
         </div>
 
         <h1 class="hero-headline">
-          <span class="mask-row"><span class="mask-inner hl-chrome" style="--d:.16s">Student Developer,</span></span>
-          <span class="mask-row"><span class="mask-inner hl-crimson" data-text="Practically" style="--d:.28s">Practically</span></span>
-          <span class="mask-row"><span class="mask-inner hl-chrome" style="--d:.4s">Engineered<span class="hl-dot">.</span></span></span>
+          <span class="hl-row" style="--d:.14s"><span class="hl-chrome">Student Developer,</span></span>
+          <span class="hl-row" style="--d:.26s"><span class="hl-crimson">Practically</span></span>
+          <span class="hl-row" style="--d:.38s"><span class="hl-chrome">Engineered<span class="hl-dot">.</span></span></span>
         </h1>
 
         <p class="hero-desc">
@@ -2182,91 +2217,52 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           </a>
         </div>
 
-        <div class="hero-micro-bar">
-          <span>Architect</span><i></i>
-          <span>Execute</span><i></i>
-          <span>Scale</span>
+        <div class="hero-pillars">
+          <span class="pillar-pill"><i></i> Clean Architecture</span>
+          <span class="pillar-pill"><i></i> Reliable Backend</span>
+          <span class="pillar-pill"><i></i> Real-World Software</span>
         </div>
       </div>
 
-      <!-- Interactive 3D Liquid-Chrome & Laser-Crimson Core -->
       <div class="hero-core-stage">
         <div class="core-halo"></div>
-        <canvas id="cyberCore" aria-label="Interactive 3D Liquid Chrome and Laser Crimson Core"></canvas>
-        <div class="core-hud-tag hud-tl"><i></i> Core // Interactive 3D</div>
-        <div class="core-hud-tag hud-br"><i></i> Logic Engine // Active</div>
-      </div>
-    </div>
-
-    <div class="kinetic-ribbon" aria-hidden="true">
-      <div class="ribbon-track">
-        <span class="ribbon-item"><i></i> Python</span>
-        <span class="ribbon-item"><i></i> Node JS</span>
-        <span class="ribbon-item"><i></i> TypeScript</span>
-        <span class="ribbon-item"><i></i> React JS</span>
-        <span class="ribbon-item"><i></i> C#</span>
-        <span class="ribbon-item"><i></i> Visual Basic</span>
-        <span class="ribbon-item"><i></i> SQL</span>
-        <span class="ribbon-item"><i></i> MongoDB</span>
-        <span class="ribbon-item"><i></i> Firebase</span>
-        <span class="ribbon-item"><i></i> AWS Basics</span>
-        <span class="ribbon-item"><i></i> GitHub Actions</span>
-        <span class="ribbon-item"><i></i> Python</span>
-        <span class="ribbon-item"><i></i> Node JS</span>
-        <span class="ribbon-item"><i></i> TypeScript</span>
-        <span class="ribbon-item"><i></i> React JS</span>
-        <span class="ribbon-item"><i></i> C#</span>
-        <span class="ribbon-item"><i></i> Visual Basic</span>
-        <span class="ribbon-item"><i></i> SQL</span>
-        <span class="ribbon-item"><i></i> MongoDB</span>
-        <span class="ribbon-item"><i></i> Firebase</span>
-        <span class="ribbon-item"><i></i> AWS Basics</span>
-        <span class="ribbon-item"><i></i> GitHub Actions</span>
+        <canvas id="cyberCore" aria-label="Interactive 3D Globe — Drag or flick to spin"></canvas>
       </div>
     </div>
   </div>
 </header>
 
 <!-- =========================================================
-     STAGE 01: BENTO ARCHITECTURE & INTERACTIVE STACK MATRIX
+     STAGE 01: BACKGROUND & STACK (HEADING #2 OF 4)
      ========================================================= -->
 <section id="about" class="stage-section">
   <div class="stage-guard">
-    <div class="section-header">
+    <div class="section-header obs-head">
       <span class="num-badge">01</span>
-      <span class="scramble-title" data-title="Background & Stack">Background &amp; Stack</span>
+      <!-- Heading 2 of 4 with Smooth Decode -->
+      <span class="heading-decode" data-heading-decode data-delay="180">Background &amp; Stack</span>
       <span class="header-line"></span>
     </div>
 
     <div class="bento-about-grid">
       <div class="spot-card bio-bento">
         <div>
-          <span class="bio-kicker">System Architecture &amp; Mindset</span>
+          <span class="bio-kicker">Developer Profile</span>
           <h3>Engineering reliable software from backend logic up.</h3>
           <p>I am a final year B.Tech Information Technology student (2023–2027) with a strong focus on backend logic and practical software creation. My passion lies in writing clean code, structuring reliable applications, and building tools that solve real-world problems.</p>
           <p>My academic journey has given me a solid foundation in full-stack development, combining Frontend Core skills with Backend &amp; Logic expertise while prioritizing accuracy, efficiency, and usability.</p>
         </div>
 
-        <div class="telemetry-metrics">
-          <div class="metric-box">
-            <strong>04<em>+</em></strong>
-            <span>Stack Layers</span>
-          </div>
-          <div class="metric-box">
-            <strong>03<em>+</em></strong>
-            <span>Core Builds</span>
-          </div>
-          <div class="metric-box">
-            <strong>2027<em>.</em></strong>
-            <span>B.Tech IT</span>
-          </div>
+        <div class="stack-focus-bar" id="stackFocusBar">
+          <span class="sf-text"><strong id="stackFocusTitle">Full-Stack Focus:</strong> <span id="stackFocusDesc">Hover a stack card to explore how I use it.</span></span>
+          <span class="sf-dot"></span>
         </div>
       </div>
 
       <div class="stack-matrix">
-        <div class="spot-card stack-module" style="--sd:0s">
+        <div class="spot-card stack-module" style="--sd:0s" data-focus="Frontend Core:|Responsive dark-mode interfaces, smooth interactions & component state.">
           <div>
-            <div class="mod-head"><span class="mod-code">MOD // 01</span><span class="mod-led"></span></div>
+            <div class="mod-head"><span class="mod-code">Layer 01</span><span class="mod-led"></span></div>
             <h4>Frontend Core</h4>
           </div>
           <div class="mod-chips">
@@ -2274,9 +2270,9 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           </div>
         </div>
 
-        <div class="spot-card stack-module" style="--sd:.9s">
+        <div class="spot-card stack-module" style="--sd:.9s" data-focus="Backend & Logic:|REST APIs, predictive Python pipelines & standalone Windows .exe apps.">
           <div>
-            <div class="mod-head"><span class="mod-code">MOD // 02</span><span class="mod-led"></span></div>
+            <div class="mod-head"><span class="mod-code">Layer 02</span><span class="mod-led"></span></div>
             <h4>Backend &amp; Logic</h4>
           </div>
           <div class="mod-chips">
@@ -2284,9 +2280,9 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           </div>
         </div>
 
-        <div class="spot-card stack-module" style="--sd:1.8s">
+        <div class="spot-card stack-module" style="--sd:1.8s" data-focus="Databases:|Structured relational queries, document stores & real-time cloud sync.">
           <div>
-            <div class="mod-head"><span class="mod-code">MOD // 03</span><span class="mod-led"></span></div>
+            <div class="mod-head"><span class="mod-code">Layer 03</span><span class="mod-led"></span></div>
             <h4>Databases</h4>
           </div>
           <div class="mod-chips">
@@ -2294,9 +2290,9 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           </div>
         </div>
 
-        <div class="spot-card stack-module" style="--sd:2.7s">
+        <div class="spot-card stack-module" style="--sd:2.7s" data-focus="DevOps & Cloud:|Automated GitHub CI workflows & foundational cloud deployment.">
           <div>
-            <div class="mod-head"><span class="mod-code">MOD // 04</span><span class="mod-led"></span></div>
+            <div class="mod-head"><span class="mod-code">Layer 04</span><span class="mod-led"></span></div>
             <h4>DevOps &amp; Cloud</h4>
           </div>
           <div class="mod-chips">
@@ -2309,18 +2305,18 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 </section>
 
 <!-- =========================================================
-     STAGE 02: GLIDING FILTER PILL + CHOREOGRAPHED PROJECT CARDS
+     STAGE 02: SELECTED PROJECTS (HEADING #3 OF 4 + 3 LIVE VISUALIZERS)
      ========================================================= -->
 <section id="work" class="stage-section">
   <div class="stage-guard">
     <div class="section-header-row">
-      <div class="section-header">
+      <div class="section-header obs-head">
         <span class="num-badge">02</span>
-        <span class="scramble-title" data-title="Selected Projects">Selected Projects</span>
+        <!-- Heading 3 of 4 with Smooth Decode -->
+        <span class="heading-decode" data-heading-decode data-delay="180">Selected Projects</span>
         <span class="header-line"></span>
       </div>
 
-      <!-- Segmented Filter Bar with 2D Gliding Laser-Chrome Pill & Counts -->
       <div class="project-filters" id="projectFilters" role="tablist" aria-label="Filter projects">
         <span class="filter-pill-slider" id="filterPillSlider"></span>
         <button type="button" class="filter-btn active" data-filter="all"><span>All</span><span class="f-count">3</span></button>
@@ -2331,8 +2327,8 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
     </div>
 
     <div class="projects-bento" id="projectsBento">
-      <!-- Flagship Current Development Project (Exact Title & Description Preserved) -->
-      <article class="project-card featured-span" data-cat="dev web">
+      <!-- Project 1: Flagship Train ETA (Exact Title & Description Preserved) -->
+      <article class="project-card" data-cat="dev web">
         <span class="card-laser-sweep"></span>
         <div class="proj-body">
           <div class="dev-status-badge"><i></i> Current Development</div>
@@ -2341,48 +2337,69 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           <p>An ETA service that ingests live train position and current delay, and for each remaining station on the run predicts arrival as a distribution rather than a point, using features grounded in real running behaviour — sectional running time history for that route, delay of the preceding train on the same section, downstream congestion, station-specific dwell behaviour, day of week and seasonal effects, and the recovery time actually built into the schedule — refreshing predictions on each new position update, degrading gracefully when position data is stale, and exposed through an API sized for network-wide operation with an accompanying view for passengers and control room staff showing predicted arrival with an uncertainty band.</p>
         </div>
 
-        <!-- Live Animated Arrival Distribution & Uncertainty Band Telemetry -->
-        <div class="eta-telemetry-box" aria-hidden="true">
-          <div class="eta-top-row">
-            <span>Live Arrival Distribution</span>
-            <strong id="etaSpreadLabel">±2.4 MIN BAND</strong>
+        <!-- Visualizer 1: Probabilistic Arrival Distribution & Uncertainty Band -->
+        <div class="sim-telemetry-box">
+          <div class="sim-top-row">
+            <span id="etaStationTitle">Station 02 Forecast</span>
+            <strong id="etaSpreadLabel">±1.9 MIN BAND</strong>
           </div>
-          <canvas id="etaCanvas"></canvas>
-          <div class="eta-route-track">
-            <span class="eta-route-progress"></span>
-            <span>STN-A</span>
-            <span>SEC-02</span>
-            <span>SEC-03</span>
-            <span>TERM</span>
+          <canvas class="sim-canvas" id="etaCanvas" aria-hidden="true"></canvas>
+          <div class="sim-controls" style="--cols:4" role="group" aria-label="Station ETA preview">
+            <button type="button" class="sim-btn stn-btn" data-pos="0.32" data-spread="0.08" data-name="Next Stop">Stop 01</button>
+            <button type="button" class="sim-btn stn-btn active" data-pos="0.46" data-spread="0.12" data-name="Station 02 Forecast">Stop 02</button>
+            <button type="button" class="sim-btn stn-btn" data-pos="0.60" data-spread="0.16" data-name="Junction 03 Forecast">Stop 03</button>
+            <button type="button" class="sim-btn stn-btn" data-pos="0.72" data-spread="0.21" data-name="Terminal Forecast">Terminal</button>
           </div>
         </div>
       </article>
 
-      <!-- Project 2 -->
+      <!-- Project 2: Operation Church + Interactive Local .exe Workflow Visualizer -->
       <article class="project-card" data-cat="desktop">
         <span class="card-laser-sweep"></span>
         <div class="proj-body">
-          <div class="proj-mini-hud">
-            <span>WIN32 // LOCAL WORKFLOW SYNC</span>
-            <span class="node-pipeline" aria-hidden="true"><i></i><em></em><i></i><em></em><i></i></span>
-          </div>
+          <div class="dev-status-badge subtle"><i></i> Standalone Windows .exe</div>
           <div class="project-title">Operation Church</div>
           <div class="project-tech"><span>Visual Basic</span><span>Desktop App (.exe)</span><span>Data Management</span></div>
           <p>A compiled desktop software management application built as a standalone Windows executable (.exe) using Visual Basic. It was designed to handle internal operations, streamlining organizational workflows and local data management securely and efficiently without relying on a web browser.</p>
         </div>
+
+        <!-- Visualizer 2: Local .exe Record Pipeline & Throughput Simulator -->
+        <div class="sim-telemetry-box">
+          <div class="sim-top-row">
+            <span id="churchModeTitle">Local Record Ledger</span>
+            <strong id="churchMetricLabel">0.3ms LOCAL I/O</strong>
+          </div>
+          <canvas class="sim-canvas" id="churchCanvas" aria-hidden="true"></canvas>
+          <div class="sim-controls" style="--cols:3" role="group" aria-label="Operation Church module preview">
+            <button type="button" class="sim-btn ch-btn active" data-rate="1.0" data-blocks="6" data-title="Local Record Ledger" data-metric="0.3ms LOCAL I/O">Records</button>
+            <button type="button" class="sim-btn ch-btn" data-rate="1.6" data-blocks="8" data-title="Workflow Dispatch" data-metric="ZERO BROWSER LAG">Workflows</button>
+            <button type="button" class="sim-btn ch-btn" data-rate="0.7" data-blocks="5" data-title="Encrypted Vault Sync" data-metric="OFFLINE SECURE">Vault</button>
+          </div>
+        </div>
       </article>
 
-      <!-- Project 3 -->
+      <!-- Project 3: InfoVerify + Interactive Python Credibility Spectrum Visualizer -->
       <article class="project-card" data-cat="web">
         <span class="card-laser-sweep"></span>
         <div class="proj-body">
-          <div class="proj-mini-hud">
-            <span>PATTERN ENGINE // VERIFY STREAM</span>
-            <span class="verify-meter" aria-hidden="true"><span class="verify-track"><span class="verify-fill"></span></span></span>
-          </div>
+          <div class="dev-status-badge subtle"><i></i> Web Verification Engine</div>
           <div class="project-title">InfoVerify</div>
           <div class="project-tech"><span>Web Development</span><span>Python</span><span>Backend Logic</span></div>
           <p>A fully functioning web application designed to help verify information and identify potentially misleading websites. Built using Python for the backend logic to cross-reference data patterns and flag suspicious content directly in the browser.</p>
+        </div>
+
+        <!-- Visualizer 3: Python Pattern Cross-Reference & Anomaly Boundary -->
+        <div class="sim-telemetry-box">
+          <div class="sim-top-row">
+            <span id="verifyModeTitle">Trusted Pattern Scan</span>
+            <strong id="verifyScoreLabel">98.4% VERIFIED</strong>
+          </div>
+          <canvas class="sim-canvas" id="verifyCanvas" aria-hidden="true"></canvas>
+          <div class="sim-controls" style="--cols:3" role="group" aria-label="InfoVerify pattern scan preview">
+            <button type="button" class="sim-btn vf-btn active" data-risk="0.14" data-title="Trusted Pattern Scan" data-score="98.4% VERIFIED">Authentic</button>
+            <button type="button" class="sim-btn vf-btn" data-risk="0.54" data-title="Mixed Claim Cross-Check" data-score="61.2% UNCERTAIN">Clickbait</button>
+            <button type="button" class="sim-btn vf-btn" data-risk="0.88" data-title="Misleading Site Flagged" data-score="96.8% FLAGGED">Suspicious</button>
+          </div>
         </div>
       </article>
     </div>
@@ -2390,60 +2407,51 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 </section>
 
 <!-- =========================================================
-     STAGE 03: KINETIC SIGNAL TRANSMISSION HUB + SOCIAL BENTO
+     STAGE 03: LET'S TALK (HEADING #4 OF 4 + DAMPED ZOOM + GMAIL DECODE)
      ========================================================= -->
 <section id="contact" class="stage-section" style="margin-bottom: 0; padding-bottom: 40px;">
   <div class="stage-guard">
-    <div class="section-header">
-      <span class="num-badge">03</span>
-      <span class="scramble-title" data-title="Let’s Talk">Let’s Talk</span>
-      <span class="header-line"></span>
+    <div class="section-header-row">
+      <div class="section-header obs-head">
+        <span class="num-badge">03</span>
+        <!-- Heading 4 of 4 with Smooth Decode -->
+        <span class="heading-decode" data-heading-decode data-delay="180">Let’s Talk</span>
+        <span class="header-line"></span>
+      </div>
+
+      <div class="availability-pill">
+        <span class="avail-dot" aria-hidden="true"></span>
+        <span class="availability-text">Available for Opportunities</span>
+      </div>
     </div>
 
-    <div class="signal-stage">
-      <!-- Radial Sonar Pulse Rings & Conic Radar Sweep (Zero Rectangular Box) -->
-      <div class="sonar-field" aria-hidden="true">
-        <div class="sonar-radar-beam"></div>
-        <div class="sonar-ring"></div>
-        <div class="sonar-ring"></div>
-        <div class="sonar-ring"></div>
+    <div class="signal-stage" id="signalStage">
+      <div class="horizon-lightstage" aria-hidden="true">
+        <div class="horizon-rim"></div>
       </div>
 
-      <!-- Dual Live Oscillating Laser Frequency Equalizer -->
-      <div class="transmission-hud">
-        <span class="eq-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-        <span class="transmission-text">Direct Transmission // Ready</span>
-        <span class="eq-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-      </div>
-
-      <!-- Kinetic 3D Character-Wave Headline -->
-      <h2 class="kinetic-touch-title" aria-label="Get In Touch">
-        <span class="k-word">
-          <span class="k-char" style="--ci:0">G</span><span class="k-char" style="--ci:1">E</span><span class="k-char" style="--ci:2">T</span>
-        </span>
-        <span class="k-word accent-word">
-          <span class="k-char" style="--ci:3">I</span><span class="k-char" style="--ci:4">N</span>
-        </span>
-        <span class="k-word">
-          <span class="k-char" style="--ci:5">T</span><span class="k-char" style="--ci:6">O</span><span class="k-char" style="--ci:7">U</span><span class="k-char" style="--ci:8">C</span><span class="k-char" style="--ci:9">H</span>
-        </span>
+      <!-- Velocity-Damped Letter-by-Letter Zoom & Arrangement ("GET IN TOUCH") -->
+      <h2 class="letter-dock-title" id="letterDockTitle" aria-label="Get In Touch">
+        <span class="z-letter">G</span><span class="z-letter">E</span><span class="z-letter">T</span><span class="z-space">&nbsp;</span><span class="z-letter accent">I</span><span class="z-letter accent">N</span><span class="z-space">&nbsp;</span><span class="z-letter">T</span><span class="z-letter">O</span><span class="z-letter">U</span><span class="z-letter">C</span><span class="z-letter">H</span>
       </h2>
 
       <p class="signal-sub">Open to internships, collaborative software builds, and backend engineering opportunities.</p>
 
-      <!-- Floating Animated Opportunity Status Nodes -->
-      <div class="opp-orbit-row" aria-hidden="true">
-        <span class="opp-chip" style="--od:0s"><i></i> Internships</span>
-        <span class="opp-chip" style="--od:.6s"><i></i> Collaborative Builds</span>
-        <span class="opp-chip" style="--od:1.2s"><i></i> Backend Engineering</span>
+      <div class="opp-orbit-row">
+        <span class="opp-chip"><i></i> Internships</span>
+        <span class="opp-chip"><i></i> Collaborative Builds</span>
+        <span class="opp-chip"><i></i> Backend Engineering</span>
       </div>
 
-      <!-- Spinning Conic Laser-Beam Compact Gmail Capsule -->
-      <div class="laser-mail-shell" id="laserMailShell">
+      <!-- Compact Gmail Pill: Smoothly Decodes ONLY After Copying! -->
+      <div class="liquid-mail-wrap" id="liquidMailWrap">
         <button type="button" class="copy-mail-btn" id="copyMailBtn" data-email="jebarajimman12@gmail.com" aria-label="Copy email address jebarajimman12@gmail.com to clipboard">
           <span class="mail-left">
             <span class="mail-icon-box" id="mailIconBox"><svg class="i"><use href="#gm"/></svg></span>
-            <span class="mail-address" id="mailAddressText">jebarajimman12@gmail.com</span>
+            <span class="mail-text-slot">
+              <span class="mail-sizer" aria-hidden="true">jebarajimman12@gmail.com</span>
+              <span class="mail-live-text" id="mailLiveText">jebarajimman12@gmail.com</span>
+            </span>
           </span>
           <span class="copy-pill" id="copyPill" title="Copy Email">
             <svg class="i" id="copyIcon"><use href="#cp"/></svg>
@@ -2454,36 +2462,36 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 
     <div class="bottom-socials-wrap">
       <div class="big-socials-grid">
-        <a class="big-soc-tile tile-gh" href="https://github.com/Jrajimman12" target="_blank" rel="noopener" aria-label="GitHub">
+        <a class="big-soc-tile tile-gh" href="https://github.com/Jrajimman12" target="_blank" rel="noopener" aria-label="GitHub @Jrajimman12">
           <div class="tile-top">
             <span class="big-soc-icon"><svg class="i"><use href="#gh"/></svg></span>
             <span class="tile-arrow">↗</span>
           </div>
           <div class="big-soc-info">
             <strong>GitHub</strong>
-            <span>@Jrajimman12</span>
+            <span class="tile-handle">@Jrajimman12</span>
           </div>
         </a>
 
-        <a class="big-soc-tile tile-in" href="https://www.linkedin.com/in/jebarajimmanuel" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <a class="big-soc-tile tile-in" href="https://www.linkedin.com/in/jebarajimmanuel" target="_blank" rel="noopener" aria-label="LinkedIn Jebaraj Immanuel">
           <div class="tile-top">
             <span class="big-soc-icon"><svg class="i"><use href="#in"/></svg></span>
             <span class="tile-arrow">↗</span>
           </div>
           <div class="big-soc-info">
             <strong>LinkedIn</strong>
-            <span>Jebaraj Immanuel</span>
+            <span class="tile-handle">in/jebarajimmanuel</span>
           </div>
         </a>
 
-        <a class="big-soc-tile tile-ig" href="https://www.instagram.com/jebaraj__immanuel/" target="_blank" rel="noopener" aria-label="Instagram">
+        <a class="big-soc-tile tile-ig" href="https://www.instagram.com/jebaraj__immanuel/" target="_blank" rel="noopener" aria-label="Instagram @jebaraj__immanuel">
           <div class="tile-top">
             <span class="big-soc-icon"><svg class="i"><use href="#ig"/></svg></span>
             <span class="tile-arrow">↗</span>
           </div>
           <div class="big-soc-info">
             <strong>Instagram</strong>
-            <span>@jebaraj__immanuel</span>
+            <span class="tile-handle">@jebaraj__immanuel</span>
           </div>
         </a>
 
@@ -2494,7 +2502,7 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
           </div>
           <div class="big-soc-info">
             <strong>Gmail</strong>
-            <span>Copy Email ID</span>
+            <span class="tile-handle" id="bottomGmailHandle">jebarajimman12@gmail.com</span>
           </div>
         </button>
       </div>
@@ -2502,43 +2510,112 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
   </div>
 </section>
 
-<footer>
+<!-- =========================================================
+     FOOTER + EXPANDED IN-PAGE EASTER EGG CUSTOMIZATION STUDIO
+     ========================================================= -->
+<footer id="siteFooter">
+  <span class="footer-unlock-beam" aria-hidden="true"></span>
+
+  <div class="inline-studio-shell" id="inlineStudioShell" aria-hidden="true">
+    <div class="inline-studio-inner">
+      <div class="studio-dock">
+        <div class="studio-dock-head">
+          <div class="studio-dock-title">
+            <span>System Customization Studio</span>
+            <span class="preset-badge">Easter Egg Unlocked</span>
+          </div>
+          <div class="studio-head-actions">
+            <button type="button" class="studio-action-pill" id="randomizeSetupBtn">Surprise Setup ✦</button>
+            <button type="button" class="studio-action-pill" id="resetSetupBtn">Reset Default ↺</button>
+            <button type="button" class="studio-action-pill" id="closeStudioBtn">Hide &times;</button>
+          </div>
+        </div>
+
+        <span class="studio-section-label">01 // Curated Color Presets</span>
+        <div class="preset-grid" id="presetGrid"></div>
+
+        <span class="studio-section-label">02 // Interface, 3D Core &amp; Motion Tuning</span>
+        <div class="customizer-controls-grid">
+          <div class="cust-group">
+            <div class="cust-group-title"><span>3D Globe Architecture</span><small>HERO</small></div>
+            <div class="cust-pills" data-cust="coreMode">
+              <button type="button" class="cust-opt active" data-val="armor">Faceted</button>
+              <button type="button" class="cust-opt" data-val="wire">Wireframe</button>
+              <button type="button" class="cust-opt" data-val="orb">Singularity</button>
+            </div>
+          </div>
+
+          <div class="cust-group">
+            <div class="cust-group-title"><span>3D Spin Energy</span><small>PHYSICS</small></div>
+            <div class="cust-pills" data-cust="coreSpeed">
+              <button type="button" class="cust-opt" data-val="0.0018">Calm</button>
+              <button type="button" class="cust-opt active" data-val="0.0038">Balanced</button>
+              <button type="button" class="cust-opt" data-val="0.0095">Overdrive</button>
+            </div>
+          </div>
+
+          <div class="cust-group">
+            <div class="cust-group-title"><span>Typography Preset</span><small>FONTS</small></div>
+            <div class="cust-pills" data-cust="fontMode">
+              <button type="button" class="cust-opt active" data-val="cyber">Sora Tech</button>
+              <button type="button" class="cust-opt" data-val="clean">Geometric</button>
+              <button type="button" class="cust-opt" data-val="mono">Dev Mono</button>
+            </div>
+          </div>
+
+          <div class="cust-group">
+            <div class="cust-group-title"><span>Card Geometry</span><small>SURFACE</small></div>
+            <div class="cust-pills" data-cust="shapeMode">
+              <button type="button" class="cust-opt active" data-val="rounded">Rounded</button>
+              <button type="button" class="cust-opt" data-val="frosted">Frosted</button>
+              <button type="button" class="cust-opt" data-val="sharp">Sharp</button>
+            </div>
+          </div>
+
+          <div class="cust-group">
+            <div class="cust-group-title"><span>Ambient Backdrop</span><small>SPACE</small></div>
+            <div class="cust-pills" data-cust="bgMode">
+              <button type="button" class="cust-opt active" data-val="full">Eclipse + Stars</button>
+              <button type="button" class="cust-opt" data-val="grid">Grid Only</button>
+              <button type="button" class="cust-opt" data-val="minimal">Pure Black</button>
+            </div>
+          </div>
+
+          <div class="cust-group">
+            <div class="cust-group-title"><span>Scroll &amp; Luminar</span><small>FLOW</small></div>
+            <div class="cust-pills" data-cust="flowMode">
+              <button type="button" class="cust-opt active" data-val="stage">Stage Focus</button>
+              <button type="button" class="cust-opt" data-val="free">Free Scroll</button>
+              <button type="button" class="cust-opt" data-val="hyper">High Glow</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <p>&copy; 2026 Jebaraj Immanuel. <span id="secretFocusTrigger">Built with focus.</span></p>
 </footer>
 
-<!-- Quick Command Palette (Color Switch Removed — Strictly Easter Egg Only) -->
+<!-- Quick Jump Palette -->
 <div id="cmdModal" class="cmd-overlay" aria-hidden="true">
-  <div class="cmd-box" role="dialog" aria-label="Quick Actions Command Palette">
+  <div class="cmd-box" role="dialog" aria-label="Quick Jump Menu">
     <div class="cmd-head">
       <svg class="i"><use href="#srch"/></svg>
-      <input type="text" id="cmdInput" class="cmd-input" placeholder="Search actions or jump to section..." autocomplete="off">
+      <input type="text" id="cmdInput" class="cmd-input" placeholder="Jump to a section or action..." autocomplete="off">
       <button type="button" class="cmd-kbd" id="closeCmdBtn">ESC</button>
     </div>
     <div class="cmd-list" id="cmdList"></div>
     <div class="cmd-foot">
-      <span>Quick Navigation</span>
-      <span id="liveClock">IST // LIVE</span>
+      <span>Use ↑↓ and Enter</span>
+      <span id="liveClock">Chennai, IST</span>
     </div>
   </div>
 </div>
 
-<!-- Exclusive Easter Egg Customize Presets Panel -->
-<div id="presetModal" class="preset-modal-overlay" aria-hidden="true">
-  <div class="preset-panel" role="dialog" aria-labelledby="presetTitle">
-    <div class="preset-panel-head">
-      <div>
-        <h3 id="presetTitle">Theme Preset Studio <span class="preset-badge">Easter Egg</span></h3>
-        <p>Curated Obsidian, Chrome &amp; Laser ambient color presets.</p>
-      </div>
-      <button type="button" class="close-preset-btn" id="closePresetBtn" aria-label="Close preset panel">&times;</button>
-    </div>
-    <div class="preset-grid" id="presetGrid"></div>
-  </div>
-</div>
-
-<!-- Animated Rocket Back-to-Top Button -->
+<!-- Back-to-Top Rocket Button -->
 <button id="top" aria-label="Back to top">
-  <span class="top-label">Launch Top</span>
+  <span class="top-label">Back to Top</span>
   <svg class="ring" viewBox="0 0 54 54">
     <circle id="topRing" cx="27" cy="27" r="24"/>
   </svg>
@@ -2552,49 +2629,165 @@ footer p { color: var(--muted); font-size: 13px; margin: 0; letter-spacing: .3px
 <div id="toast" role="status" aria-live="polite">
   <div class="toast-badge"><svg class="i"><use href="#ck"/></svg></div>
   <div class="toast-text">
-    <strong id="toastTitle">Email Copied to Clipboard!</strong>
+    <strong id="toastTitle">Email Copied!</strong>
     <span id="toastSub">jebarajimman12@gmail.com is ready to paste.</span>
   </div>
 </div>
 
-<!-- Animated 3D Resume Modal -->
+<!-- Zero-Lag Deferred Resume Viewer -->
 <div id="resumeModal" class="resume-modal-overlay" aria-hidden="true">
   <div class="resume-window">
     <div class="resume-topbar">
       <div class="resume-topbar-title">
         <div class="resume-topbar-dots"><span></span><span></span><span></span></div>
-        <span>Resume // Jebaraj Immanuel</span>
+        <span>Jebaraj Immanuel &bull; Resume</span>
       </div>
       <div class="resume-actions">
-        <a href="resume@jebarajimmanuel.pdf" target="_blank" rel="noopener" class="resume-dl-btn">Open ↗</a>
+        <a href="resume@jebarajimmanuel.pdf" target="_blank" rel="noopener" class="resume-dl-btn">Open Tab ↗</a>
         <a href="resume@jebarajimmanuel.pdf" download class="resume-dl-btn">Download ↓</a>
         <button type="button" class="close-resume" id="closeResumeBtn" aria-label="Close Resume">&times;</button>
       </div>
     </div>
     <div class="resume-iframe-container">
-      <iframe src="resume@jebarajimmanuel.pdf#toolbar=0" width="100%" height="100%" frameborder="0" title="Jebaraj Immanuel Resume"></iframe>
+      <div class="resume-loader" id="resumeLoader">Loading document preview...</div>
+      <iframe id="resumeFrame" data-src="resume@jebarajimmanuel.pdf#toolbar=0" title="Jebaraj Immanuel Resume"></iframe>
     </div>
   </div>
 </div>
 
 <script>
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Curated Obsidian + Chrome + Laser Presets (Accessible ONLY via "Built with focus." Easter Egg)
+// =========================================================
+// SILKY PER-CHARACTER BLUR/OPACITY DECODE (STRICTLY 4 HEADINGS + GMAIL COPY)
+// =========================================================
+const UPPER_POOL = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const LOWER_POOL = 'abcdefghjkmnpqrstuvwxyz23456789';
+const KEEP_CHARS = new Set([' ', '&', '@', '.', '/', '-', '—', '•', '!', '’', "'"]);
+const morphStates = new WeakMap();
+
+const glyphFor = (ch) => {
+  if (KEEP_CHARS.has(ch)) return ch;
+  return (ch >= 'a' && ch <= 'z')
+    ? LOWER_POOL[(Math.random() * LOWER_POOL.length) | 0]
+    : UPPER_POOL[(Math.random() * UPPER_POOL.length) | 0];
+};
+
+const smoothMorphDecode = (el, { target = null, delay = 0, duration = 760 } = {}) => {
+  if (!el) return;
+  if (!el._trueStr) el._trueStr = el.textContent;
+  const finalStr = target !== null ? target : el._trueStr;
+
+  if (reduceMotion) {
+    el.textContent = finalStr;
+    return;
+  }
+
+  const prev = morphStates.get(el);
+  if (prev) {
+    clearTimeout(prev.timer);
+    cancelAnimationFrame(prev.raf);
+  }
+
+  const chars = [...finalStr];
+  const spans = chars.map(ch => {
+    const sp = document.createElement('span');
+    sp.className = 'm-ch' + (KEEP_CHARS.has(ch) ? '' : ' decoding');
+    sp.textContent = ch === ' ' ? '\u00A0' : glyphFor(ch);
+    return sp;
+  });
+
+  const state = { timer: 0, raf: 0 };
+  morphStates.set(el, state);
+
+  state.timer = setTimeout(() => {
+    el.textContent = '';
+    spans.forEach(sp => el.appendChild(sp));
+
+    const startTime = performance.now();
+    let lastSwap = 0;
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Cubic ease-out left-to-right lock wave
+      const eased = 1 - Math.pow(1 - progress, 2.6);
+      const lockedCount = Math.floor(eased * chars.length);
+      const shouldSwap = (now - lastSwap) >= 56;
+      if (shouldSwap) lastSwap = now;
+
+      for (let i = 0; i < chars.length; i++) {
+        const ch = chars[i];
+        const sp = spans[i];
+        if (i < lockedCount || progress >= 1 || KEEP_CHARS.has(ch)) {
+          if (sp.classList.contains('decoding')) {
+            sp.classList.remove('decoding');
+            sp.textContent = ch === ' ' ? '\u00A0' : ch;
+          }
+        } else if (shouldSwap) {
+          sp.textContent = glyphFor(ch);
+        }
+      }
+
+      if (progress < 1) {
+        state.raf = requestAnimationFrame(step);
+      } else {
+        // Settle cleanly back to pure text node after fade finishes
+        setTimeout(() => {
+          if (morphStates.get(el) === state) {
+            el.textContent = finalStr;
+            morphStates.delete(el);
+          }
+        }, 340);
+      }
+    };
+    state.raf = requestAnimationFrame(step);
+  }, delay);
+};
+
+// Observe ONLY the 4 `[data-heading-decode]` Headings
+const headingDecodeObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const el = entry.target;
+    if (entry.isIntersecting) {
+      if (el.dataset.decodedInView === '1') return;
+      el.dataset.decodedInView = '1';
+      const d = parseInt(el.dataset.delay || '180', 10);
+      smoothMorphDecode(el, { delay: d, duration: 820 });
+    } else {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -40 || r.top > window.innerHeight + 40) {
+        el.dataset.decodedInView = '0';
+      }
+    }
+  });
+}, { threshold: 0.55 });
+
+$$('[data-heading-decode]').forEach(el => {
+  el._trueStr = el.textContent;
+  headingDecodeObserver.observe(el);
+});
+
+// =========================================================
+// EXPANDED EASTER EGG SYSTEM CUSTOMIZATION STUDIO
+// =========================================================
 const PRESETS = [
-  { name: 'Obsidian Laser', a: '#D41514', b: '#ff3332', c: '#CDCBCA', bg: '#080808', panel: '#0d0d10', line: '#1f1f24' },
+  { name: 'Obsidian Laser', a: '#D41514', b: '#ff3b3a', c: '#CDCBCA', bg: '#080808', panel: '#0d0d10', line: '#1f1f24' },
   { name: 'Titanium Cobalt', a: '#2563eb', b: '#60a5fa', c: '#d1d5db', bg: '#07080c', panel: '#0d1017', line: '#1d2432' },
   { name: 'Cyber Emerald', a: '#10b981', b: '#34d399', c: '#cbd5e1', bg: '#060908', panel: '#0c1311', line: '#1a2925' },
   { name: 'Phantom Violet', a: '#9333ea', b: '#c084fc', c: '#d4d4d8', bg: '#08070c', panel: '#110e18', line: '#251e33' },
   { name: 'Molten Ember', a: '#ff5a36', b: '#ff3d7f', c: '#CDCBCA', bg: '#08080b', panel: '#101016', line: '#23232f' },
   { name: 'Cryo Cyan', a: '#06b6d4', b: '#38bdf8', c: '#cbd5e1', bg: '#06090d', panel: '#0c121a', line: '#1b2836' },
   { name: 'Crimson Rhodium', a: '#e11d48', b: '#fb7185', c: '#d6d3d1', bg: '#090708', panel: '#130d10', line: '#291d22' },
-  { name: 'Pure Liquid Chrome', a: '#f4f4f5', b: '#a1a1aa', c: '#CDCBCA', bg: '#080808', panel: '#101012', line: '#242428' }
+  { name: 'Liquid Silver', a: '#f4f4f5', b: '#a1a1aa', c: '#CDCBCA', bg: '#080808', panel: '#101012', line: '#242428' }
 ];
 
 let activePresetIndex = 0;
 let currentAccent = '#D41514';
 let currentChrome = '#CDCBCA';
+let coreRenderMode = 'armor';
+let baseCoreSpinY = 0.0038;
 let toastTimer;
 
 const hexToRgb = (hex) => {
@@ -2638,8 +2831,8 @@ const applyPreset = (index, notify = false, originEl = null) => {
     updateFavicon(p.a, p.c, p.bg);
   };
 
-  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
-    let x = innerWidth / 2, y = innerHeight / 2;
+  if (document.startViewTransition && !reduceMotion) {
+    let x = innerWidth / 2, y = innerHeight - 80;
     if (originEl) {
       const r = originEl.getBoundingClientRect();
       x = r.left + r.width / 2;
@@ -2658,14 +2851,14 @@ const applyPreset = (index, notify = false, originEl = null) => {
   }
 
   $$('.preset-card').forEach((card, i) => card.classList.toggle('active', i === index));
-  if (notify) showToast(`Theme: ${p.name}`, 'Palette transitioned smoothly.');
+  if (notify) showToast(`Theme: ${p.name}`, 'Applied live across the portfolio.');
 };
 
-// Build Easter Egg Preset Studio Cards
 const presetGrid = $('#presetGrid');
 PRESETS.forEach((p, idx) => {
   const btn = document.createElement('button');
   btn.type = 'button';
+  btn.style.setProperty('--pi', idx);
   btn.className = 'preset-card' + (idx === 0 ? ' active' : '');
   btn.innerHTML = `
     <span>${p.name}</span>
@@ -2679,20 +2872,276 @@ PRESETS.forEach((p, idx) => {
   presetGrid.appendChild(btn);
 });
 
-const presetModal = $('#presetModal');
-const closePresetModal = () => {
-  presetModal.classList.remove('active');
-  presetModal.setAttribute('aria-hidden', 'true');
+// Multi-Category System Customizer Handlers
+const applyCustomOption = (group, val) => {
+  const root = document.documentElement.style;
+  const groupContainer = $(`.cust-pills[data-cust="${group}"]`);
+  if (groupContainer) {
+    groupContainer.querySelectorAll('.cust-opt').forEach(b => b.classList.toggle('active', b.dataset.val === String(val)));
+  }
+
+  if (group === 'coreMode') {
+    coreRenderMode = val;
+  } else if (group === 'coreSpeed') {
+    baseCoreSpinY = parseFloat(val);
+  } else if (group === 'fontMode') {
+    if (val === 'cyber') {
+      root.setProperty('--font-display', "'Sora', sans-serif");
+      root.setProperty('--font-tech', "'Space Grotesk', sans-serif");
+      root.setProperty('--font-body', "'Plus Jakarta Sans', system-ui, sans-serif");
+    } else if (val === 'clean') {
+      root.setProperty('--font-display', "'Plus Jakarta Sans', sans-serif");
+      root.setProperty('--font-tech', "'Plus Jakarta Sans', sans-serif");
+      root.setProperty('--font-body', "'Plus Jakarta Sans', system-ui, sans-serif");
+    } else if (val === 'mono') {
+      root.setProperty('--font-display', "'JetBrains Mono', monospace");
+      root.setProperty('--font-tech', "'JetBrains Mono', monospace");
+      root.setProperty('--font-body', "'Space Grotesk', sans-serif");
+    }
+    setTimeout(() => { measureDockLetters(); moveFilterSlider(activeFilterBtn); moveNavSlider(activeNavEl); }, 60);
+  } else if (group === 'shapeMode') {
+    document.body.dataset.surface = val;
+    if (val === 'sharp') {
+      root.setProperty('--radius', '6px');
+      root.setProperty('--radius-sm', '4px');
+    } else {
+      root.setProperty('--radius', '22px');
+      root.setProperty('--radius-sm', '14px');
+    }
+  } else if (group === 'bgMode') {
+    document.body.dataset.bgMode = val;
+  } else if (group === 'flowMode') {
+    if (val === 'free') {
+      document.body.dataset.scrollMode = 'free';
+      root.setProperty('--glow-int', '1');
+    } else if (val === 'hyper') {
+      delete document.body.dataset.scrollMode;
+      root.setProperty('--glow-int', '1.75');
+    } else {
+      delete document.body.dataset.scrollMode;
+      root.setProperty('--glow-int', '1');
+    }
+    handleScrollFrame();
+  }
 };
-$('#secretFocusTrigger').addEventListener('click', () => {
-  presetModal.classList.add('active');
-  presetModal.setAttribute('aria-hidden', 'false');
+
+$$('.cust-pills').forEach(container => {
+  const group = container.dataset.cust;
+  container.querySelectorAll('.cust-opt').forEach(btn => {
+    btn.addEventListener('click', () => applyCustomOption(group, btn.dataset.val));
+  });
 });
-$('#closePresetBtn').addEventListener('click', closePresetModal);
-presetModal.addEventListener('click', e => { if (e.target === presetModal) closePresetModal(); });
+
+$('#randomizeSetupBtn').addEventListener('click', e => {
+  const randPreset = Math.floor(Math.random() * PRESETS.length);
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  applyCustomOption('coreMode', pick(['armor', 'wire', 'orb']));
+  applyCustomOption('coreSpeed', pick(['0.0018', '0.0038', '0.0095']));
+  applyCustomOption('fontMode', pick(['cyber', 'clean', 'mono']));
+  applyCustomOption('shapeMode', pick(['rounded', 'frosted', 'sharp']));
+  applyCustomOption('bgMode', pick(['full', 'grid']));
+  applyPreset(randPreset, false, e.currentTarget);
+  showToast('Surprise Setup Active!', `Switched to ${PRESETS[randPreset].name} + custom architecture.`);
+});
+
+$('#resetSetupBtn').addEventListener('click', e => {
+  applyCustomOption('coreMode', 'armor');
+  applyCustomOption('coreSpeed', '0.0038');
+  applyCustomOption('fontMode', 'cyber');
+  applyCustomOption('shapeMode', 'rounded');
+  applyCustomOption('bgMode', 'full');
+  applyCustomOption('flowMode', 'stage');
+  applyPreset(0, false, e.currentTarget);
+  showToast('Default Restored', 'Obsidian Laser & original studio settings active.');
+});
+
+const siteFooter = $('#siteFooter');
+const inlineStudioShell = $('#inlineStudioShell');
+const toggleInlineStudio = (forceOpen = null) => {
+  const willOpen = forceOpen !== null ? forceOpen : !siteFooter.classList.contains('studio-open');
+  siteFooter.classList.toggle('studio-open', willOpen);
+  inlineStudioShell.setAttribute('aria-hidden', String(!willOpen));
+  if (willOpen) {
+    setTimeout(() => siteFooter.scrollIntoView({ behavior: 'smooth', block: 'end' }), 180);
+  }
+};
+$('#secretFocusTrigger').addEventListener('click', () => toggleInlineStudio());
+$('#closeStudioBtn').addEventListener('click', () => toggleInlineStudio(false));
 
 // =========================================================
-// REAL-TIME INTERACTIVE 3D LIQUID-CHROME & LASER GYRO CORE
+// VELOCITY-DAMPED LETTER-BY-LETTER ZOOM ("GET IN TOUCH")
+// =========================================================
+const dockTitle = $('#letterDockTitle');
+let measureDockLetters = () => {};
+if (dockTitle) {
+  const letters = [...dockTitle.querySelectorAll('.z-letter')];
+  const N = letters.length;
+  let restCenters = new Array(N).fill(0);
+  let restWidths = new Array(N).fill(24);
+  const curScale = new Array(N).fill(1);
+  const curShift = new Array(N).fill(0);
+  const curLift = new Array(N).fill(0);
+  const velScale = new Array(N).fill(0);
+  const velShift = new Array(N).fill(0);
+  const velLift = new Array(N).fill(0);
+
+  let rawTargetX = 0;
+  let smoothCursorX = 0;
+  let presence = 0;
+  let pointerInside = false;
+  let waveStart = -1;
+  let animRunning = false;
+  let lastFrameTime = 0;
+
+  measureDockLetters = () => {
+    letters.forEach(l => { l.style.transform = ''; });
+    const titleRect = dockTitle.getBoundingClientRect();
+    letters.forEach((l, i) => {
+      const r = l.getBoundingClientRect();
+      restWidths[i] = r.width || 24;
+      restCenters[i] = (r.left - titleRect.left) + r.width / 2;
+    });
+  };
+  setTimeout(measureDockLetters, 120);
+  addEventListener('resize', measureDockLetters);
+
+  if (!reduceMotion) {
+    const stepLetterDock = (now) => {
+      const dt = Math.min(32, Math.max(8, now - (lastFrameTime || now - 16.67)));
+      lastFrameTime = now;
+      const dtScale = dt / 16.67;
+      const titleRect = dockTitle.getBoundingClientRect();
+
+      // Auto-wave on viewport entry
+      let targetPresence = pointerInside ? 1 : 0;
+      if (!pointerInside && waveStart > 0) {
+        const elapsed = now - waveStart;
+        const duration = 850;
+        if (elapsed <= duration) {
+          const p = elapsed / duration;
+          const firstX = restCenters[0] - 25;
+          const lastX = restCenters[N - 1] + 25;
+          smoothCursorX = firstX + (lastX - firstX) * p;
+          targetPresence = Math.sin(p * Math.PI);
+        } else {
+          waveStart = -1;
+        }
+      } else if (pointerInside) {
+        // Velocity-capped virtual cursor so fast mouse swipes glide gracefully instead of snapping!
+        const diffX = rawTargetX - smoothCursorX;
+        const maxTravelPerFrame = 15 * dtScale;
+        const clampedStep = Math.max(-maxTravelPerFrame, Math.min(maxTravelPerFrame, diffX * 0.22));
+        smoothCursorX += clampedStep;
+      }
+
+      // Smooth presence envelope (ramps gently in & out)
+      const envRate = (targetPresence > presence ? 0.11 : 0.075) * dtScale;
+      presence += (targetPresence - presence) * Math.min(1, envRate);
+
+      const radius = Math.max(105, titleRect.width * 0.26);
+      const targetScales = new Array(N);
+      const targetLifts = new Array(N);
+      const extraWidths = new Array(N);
+      let totalExtra = 0;
+
+      for (let i = 0; i < N; i++) {
+        let influence = 0;
+        if (presence > 0.005) {
+          const d = Math.abs(smoothCursorX - restCenters[i]);
+          if (d < radius) {
+            const c = Math.cos((d / radius) * (Math.PI / 2));
+            influence = c * c * presence;
+          }
+        }
+        targetScales[i] = 1 + influence * 0.52;
+        targetLifts[i] = -influence * 7;
+        extraWidths[i] = restWidths[i] * (targetScales[i] - 1) * 0.92;
+        totalExtra += extraWidths[i];
+      }
+
+      // Critically-damped spring integration per letter
+      const stiffness = 0.12 * dtScale;
+      const damping = Math.pow(0.74, dtScale);
+      let runningLeft = 0;
+      let maxMotion = 0;
+
+      for (let i = 0; i < N; i++) {
+        const targetShift = (runningLeft + extraWidths[i] * 0.5) - totalExtra * 0.5;
+        runningLeft += extraWidths[i];
+
+        velScale[i] = (velScale[i] + (targetScales[i] - curScale[i]) * stiffness) * damping;
+        velShift[i] = (velShift[i] + (targetShift - curShift[i]) * stiffness) * damping;
+        velLift[i] = (velLift[i] + (targetLifts[i] - curLift[i]) * stiffness) * damping;
+
+        curScale[i] += velScale[i];
+        curShift[i] += velShift[i];
+        curLift[i] += velLift[i];
+
+        maxMotion = Math.max(
+          maxMotion,
+          Math.abs(curScale[i] - 1),
+          Math.abs(velScale[i]),
+          Math.abs(curShift[i])
+        );
+
+        letters[i].style.transform = `translate3d(${curShift[i].toFixed(2)}px, ${curLift[i].toFixed(2)}px, 0) scale(${curScale[i].toFixed(3)})`;
+      }
+
+      if (pointerInside || waveStart > 0 || presence > 0.004 || maxMotion > 0.002) {
+        requestAnimationFrame(stepLetterDock);
+      } else {
+        letters.forEach(l => { l.style.transform = ''; });
+        animRunning = false;
+        lastFrameTime = 0;
+      }
+    };
+
+    const startDockLoop = () => {
+      if (!animRunning) {
+        animRunning = true;
+        lastFrameTime = performance.now();
+        requestAnimationFrame(stepLetterDock);
+      }
+    };
+
+    dockTitle.addEventListener('pointerenter', e => {
+      const r = dockTitle.getBoundingClientRect();
+      rawTargetX = e.clientX - r.left;
+      if (presence < 0.05) smoothCursorX = rawTargetX;
+      pointerInside = true;
+      startDockLoop();
+    });
+    dockTitle.addEventListener('pointermove', e => {
+      const r = dockTitle.getBoundingClientRect();
+      rawTargetX = e.clientX - r.left;
+      pointerInside = true;
+      startDockLoop();
+    });
+    dockTitle.addEventListener('pointerleave', () => {
+      pointerInside = false;
+      startDockLoop();
+    });
+
+    let dockViewed = false;
+    const dockObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !dockViewed) {
+          dockViewed = true;
+          measureDockLetters();
+          waveStart = performance.now();
+          startDockLoop();
+        } else if (!entry.isIntersecting) {
+          const r = dockTitle.getBoundingClientRect();
+          if (r.top > window.innerHeight || r.bottom < 0) dockViewed = false;
+        }
+      });
+    }, { threshold: 0.6 });
+    dockObserver.observe(dockTitle);
+  }
+}
+
+// =========================================================
+// 3D GLOBE WITH ROTATIONAL INERTIA & 3 CUSTOMIZABLE ARCHITECTURES
 // =========================================================
 const coreCanvas = $('#cyberCore');
 if (coreCanvas) {
@@ -2711,11 +3160,11 @@ if (coreCanvas) {
   resizeCore();
   addEventListener('resize', resizeCore);
 
-  const t = (1 + Math.sqrt(5)) / 2;
+  const phi = (1 + Math.sqrt(5)) / 2;
   const baseVerts = [
-    [-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0],
-    [0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t],
-    [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]
+    [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+    [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+    [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
   ].map(v => {
     const l = Math.hypot(v[0], v[1], v[2]);
     return [v[0] / l, v[1] / l, v[2] / l];
@@ -2746,28 +3195,51 @@ if (coreCanvas) {
     faces.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]);
   });
 
-  let rotX = 0.25, rotY = -0.4, targetVX = 0, targetVY = 0.008;
-  let dragging = false, lastPX = 0, lastPY = 0;
+  const FRICTION = 0.987;
+  let rotX = 0.25, rotY = -0.4;
+  let velX = 0, velY = baseCoreSpinY;
+  let hoverTiltX = 0, hoverTiltY = 0, targetHoverX = 0, targetHoverY = 0;
+  let dragging = false, lastPX = 0, lastPY = 0, lastMoveTime = 0;
 
   coreCanvas.addEventListener('pointerdown', e => {
     dragging = true;
     lastPX = e.clientX;
     lastPY = e.clientY;
+    lastMoveTime = performance.now();
+    if (coreCanvas.setPointerCapture) coreCanvas.setPointerCapture(e.pointerId);
   });
+
   addEventListener('pointermove', e => {
     if (dragging) {
-      targetVY = (e.clientX - lastPX) * 0.006;
-      targetVX = (e.clientY - lastPY) * 0.006;
+      const now = performance.now();
+      const dt = Math.max(8, now - lastMoveTime);
+      const stepY = (e.clientX - lastPX) * 0.0075;
+      const stepX = (e.clientY - lastPY) * 0.0075;
+      rotY += stepY;
+      rotX += stepX;
+
+      const scale60 = 16.67 / dt;
+      velY = Math.max(-0.22, Math.min(0.22, velY * 0.35 + stepY * scale60 * 0.65));
+      velX = Math.max(-0.22, Math.min(0.22, velX * 0.35 + stepX * scale60 * 0.65));
       lastPX = e.clientX;
       lastPY = e.clientY;
+      lastMoveTime = now;
     } else if (matchMedia('(hover: hover)').matches) {
-      const nx = (e.clientX / innerWidth - 0.5) * 0.014;
-      const ny = (e.clientY / innerHeight - 0.5) * 0.014;
-      targetVY += (nx - targetVY) * 0.05;
-      targetVX += (ny - targetVX) * 0.05;
+      targetHoverY = (e.clientX / innerWidth - 0.5) * 0.18;
+      targetHoverX = (e.clientY / innerHeight - 0.5) * 0.18;
     }
   }, { passive: true });
-  addEventListener('pointerup', () => { dragging = false; });
+
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    if (performance.now() - lastMoveTime > 90) {
+      velX *= 0.25;
+      velY = baseCoreSpinY + (velY - baseCoreSpinY) * 0.25;
+    }
+  };
+  addEventListener('pointerup', endDrag);
+  addEventListener('pointercancel', endDrag);
 
   const rot3D = (p, rx, ry, rz = 0) => {
     let [x, y, z] = p;
@@ -2782,26 +3254,37 @@ if (coreCanvas) {
     return [x2, y1, z2];
   };
 
-  let time = 0;
+  let time = 0, ringSpin = 0;
   const renderCore = () => {
     time += 0.018;
-    rotY += targetVY + 0.0045;
-    rotX += targetVX;
-    targetVX *= 0.95;
-    if (!dragging) targetVY += (0.005 - targetVY) * 0.04;
+    hoverTiltX += (targetHoverX - hoverTiltX) * 0.05;
+    hoverTiltY += (targetHoverY - hoverTiltY) * 0.05;
+
+    if (!dragging) {
+      rotX += velX;
+      rotY += velY;
+      velX *= FRICTION;
+      velY = baseCoreSpinY + (velY - baseCoreSpinY) * FRICTION;
+    }
+
+    const speedBoost = Math.hypot(velX, velY);
+    ringSpin += 0.01 + speedBoost * 0.35;
 
     ctx.clearRect(0, 0, cw, ch);
     const cx = cw / 2, cy = ch / 2;
-    const radius = Math.min(cw, ch) * 0.31;
+    const radius = Math.min(cw, ch) * 0.32;
     const fov = 3.6;
     const [ar, ag, ab] = accentRGB;
+
+    const effectiveRX = rotX + hoverTiltX;
+    const effectiveRY = rotY + hoverTiltY;
 
     const drawGyroRing = (tiltX, tiltZ, radMult, frontHalf) => {
       ctx.beginPath();
       let started = false;
       for (let i = 0; i <= 72; i++) {
         const ang = (i / 72) * Math.PI * 2;
-        const rp = rot3D([Math.cos(ang) * radMult, 0, Math.sin(ang) * radMult], tiltX, time * 0.6, tiltZ);
+        const rp = rot3D([Math.cos(ang) * radMult, 0, Math.sin(ang) * radMult], tiltX + hoverTiltX * 0.5, ringSpin, tiltZ);
         if ((rp[2] > 0) === frontHalf) {
           const scale = fov / (fov - rp[2] * 0.6);
           const sx = cx + rp[0] * radius * scale;
@@ -2812,15 +3295,16 @@ if (coreCanvas) {
           started = false;
         }
       }
-      ctx.strokeStyle = frontHalf ? `rgba(${ar},${ag},${ab},0.78)` : `rgba(205,203,202,0.18)`;
+      ctx.strokeStyle = frontHalf ? `rgba(${ar},${ag},${ab},0.82)` : `rgba(205,203,202,0.2)`;
       ctx.lineWidth = frontHalf ? 1.8 : 1;
       ctx.stroke();
     };
 
     drawGyroRing(1.05, 0.42, 1.42, false);
     drawGyroRing(-0.85, -0.5, 1.26, false);
+    if (coreRenderMode === 'orb') drawGyroRing(0.15, 1.1, 1.56, false);
 
-    const corePulseR = radius * (0.58 + Math.sin(time * 2.2) * 0.04);
+    const corePulseR = radius * ((coreRenderMode === 'orb' ? 0.72 : 0.58) + Math.sin(time * 2.2) * 0.04 + Math.min(0.12, speedBoost * 0.8));
     const innerGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, corePulseR * 1.35);
     innerGrad.addColorStop(0, '#ffffff');
     innerGrad.addColorStop(0.28, `rgba(${ar},${ag},${ab},0.95)`);
@@ -2831,153 +3315,355 @@ if (coreCanvas) {
     ctx.arc(cx, cy, corePulseR * 1.35, 0, Math.PI * 2);
     ctx.fill();
 
-    const breathe = 1 + Math.sin(time * 1.6) * 0.025;
-    const tVerts = verts.map((v, idx) => {
-      const pulse = breathe + Math.sin(time * 2.4 + idx * 0.5) * 0.022;
-      const p = rot3D([v[0] * pulse, v[1] * pulse, v[2] * pulse], rotX, rotY);
-      const scale = fov / (fov - p[2] * 0.75);
-      return { x: p[0], y: p[1], z: p[2], sx: cx + p[0] * radius * scale, sy: cy + p[1] * radius * scale };
-    });
+    if (coreRenderMode !== 'orb') {
+      const breathe = 1 + Math.sin(time * 1.6) * 0.025;
+      const tVerts = verts.map((v, idx) => {
+        const pulse = breathe + Math.sin(time * 2.4 + idx * 0.5) * 0.022;
+        const p = rot3D([v[0] * pulse, v[1] * pulse, v[2] * pulse], effectiveRX, effectiveRY);
+        const scale = fov / (fov - p[2] * 0.75);
+        return { x: p[0], y: p[1], z: p[2], sx: cx + p[0] * radius * scale, sy: cy + p[1] * radius * scale };
+      });
 
-    const sortedFaces = faces.map(f => {
-      const A = tVerts[f[0]], B = tVerts[f[1]], C = tVerts[f[2]];
-      const ux = B.x - A.x, uy = B.y - A.y, uz = B.z - A.z;
-      const vx = C.x - A.x, vy = C.y - A.y, vz = C.z - A.z;
-      let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
-      const nl = Math.hypot(nx, ny, nz) || 1;
-      nx /= nl; ny /= nl; nz /= nl;
-      return { A, B, C, nx, ny, nz, depth: (A.z + B.z + C.z) / 3 };
-    }).sort((a, b) => a.depth - b.depth);
+      const sortedFaces = faces.map(f => {
+        const A = tVerts[f[0]], B = tVerts[f[1]], C = tVerts[f[2]];
+        const ux = B.x - A.x, uy = B.y - A.y, uz = B.z - A.z;
+        const vx = C.x - A.x, vy = C.y - A.y, vz = C.z - A.z;
+        let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+        const nl = Math.hypot(nx, ny, nz) || 1;
+        nx /= nl; ny /= nl; nz /= nl;
+        return { A, B, C, nx, ny, nz, depth: (A.z + B.z + C.z) / 3 };
+      }).sort((a, b) => a.depth - b.depth);
 
-    sortedFaces.forEach(({ A, B, C, nx, ny, nz }) => {
-      if (nz < -0.15) return;
-      const mx = (A.sx + B.sx + C.sx) / 3;
-      const my = (A.sy + B.sy + C.sy) / 3;
-      const gap = 0.91;
+      sortedFaces.forEach(({ A, B, C, nx, ny, nz }) => {
+        if (coreRenderMode === 'armor' && nz < -0.15) return;
+        const mx = (A.sx + B.sx + C.sx) / 3;
+        const my = (A.sy + B.sy + C.sy) / 3;
+        const gap = coreRenderMode === 'wire' ? 0.98 : 0.91;
 
-      ctx.beginPath();
-      ctx.moveTo(mx + (A.sx - mx) * gap, my + (A.sy - my) * gap);
-      ctx.lineTo(mx + (B.sx - mx) * gap, my + (B.sy - my) * gap);
-      ctx.lineTo(mx + (C.sx - mx) * gap, my + (C.sy - my) * gap);
-      ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(mx + (A.sx - mx) * gap, my + (A.sy - my) * gap);
+        ctx.lineTo(mx + (B.sx - mx) * gap, my + (B.sy - my) * gap);
+        ctx.lineTo(mx + (C.sx - mx) * gap, my + (C.sy - my) * gap);
+        ctx.closePath();
 
-      const chromeLight = Math.max(0, nx * -0.55 + ny * -0.65 + nz * 0.52);
-      const laserRim = Math.max(0, nx * 0.82 + ny * 0.18 + nz * 0.35);
+        const chromeLight = Math.max(0, nx * -0.55 + ny * -0.65 + nz * 0.52);
+        const laserRim = Math.max(0, nx * 0.82 + ny * 0.18 + nz * 0.35);
 
-      const r = Math.min(255, Math.round(10 + Math.pow(chromeLight, 3) * 215 + Math.pow(laserRim, 2.2) * ar));
-      const g = Math.min(255, Math.round(10 + Math.pow(chromeLight, 3) * 212 + Math.pow(laserRim, 2.2) * ag));
-      const b = Math.min(255, Math.round(13 + Math.pow(chromeLight, 3) * 212 + Math.pow(laserRim, 2.2) * ab));
-
-      ctx.fillStyle = `rgba(${r},${g},${b},0.92)`;
-      ctx.fill();
-      ctx.strokeStyle = laserRim > 0.48
-        ? `rgba(${ar},${ag},${ab},${(laserRim * 0.85).toFixed(2)})`
-        : `rgba(205,203,202,${(0.12 + chromeLight * 0.35).toFixed(2)})`;
-      ctx.lineWidth = 0.85;
-      ctx.stroke();
-    });
+        if (coreRenderMode === 'armor') {
+          const r = Math.min(255, Math.round(10 + Math.pow(chromeLight, 3) * 215 + Math.pow(laserRim, 2.2) * ar));
+          const g = Math.min(255, Math.round(10 + Math.pow(chromeLight, 3) * 212 + Math.pow(laserRim, 2.2) * ag));
+          const b = Math.min(255, Math.round(13 + Math.pow(chromeLight, 3) * 212 + Math.pow(laserRim, 2.2) * ab));
+          ctx.fillStyle = `rgba(${r},${g},${b},0.92)`;
+          ctx.fill();
+        }
+        ctx.strokeStyle = laserRim > 0.42
+          ? `rgba(${ar},${ag},${ab},${(0.25 + laserRim * 0.72).toFixed(2)})`
+          : `rgba(205,203,202,${(0.14 + chromeLight * 0.36).toFixed(2)})`;
+        ctx.lineWidth = coreRenderMode === 'wire' ? 1.1 : 0.85;
+        ctx.stroke();
+      });
+    } else {
+      // Singularity Orbit Nodes
+      for (let k = 0; k < 14; k++) {
+        const ang = time * 1.1 + k * 0.45;
+        const rp = rot3D([Math.cos(ang) * 0.95, Math.sin(ang * 1.3) * 0.45, Math.sin(ang) * 0.95], effectiveRX, effectiveRY);
+        const scale = fov / (fov - rp[2] * 0.7);
+        ctx.fillStyle = k % 2 === 0 ? currentAccent : currentChrome;
+        ctx.beginPath();
+        ctx.arc(cx + rp[0] * radius * scale, cy + rp[1] * radius * scale, 2.6 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
     drawGyroRing(1.05, 0.42, 1.42, true);
     drawGyroRing(-0.85, -0.5, 1.26, true);
+    if (coreRenderMode === 'orb') drawGyroRing(0.15, 1.1, 1.56, true);
     requestAnimationFrame(renderCore);
   };
   renderCore();
 }
 
+// Interactive Stack Focus Bar (Stage 01)
+const stackFocusBar = $('#stackFocusBar');
+const stackFocusTitle = $('#stackFocusTitle');
+const stackFocusDesc = $('#stackFocusDesc');
+$$('.stack-module').forEach(mod => {
+  mod.addEventListener('mouseenter', () => {
+    const [title, desc] = (mod.dataset.focus || '').split('|');
+    if (stackFocusTitle && stackFocusDesc && desc) {
+      stackFocusBar.classList.add('lit');
+      stackFocusTitle.textContent = title;
+      stackFocusDesc.textContent = desc;
+    }
+  });
+});
+
 // =========================================================
-// LIVE TRAIN ETA PROBABILITY DISTRIBUTION & UNCERTAINTY BAND
+// 3 LIVE INTERACTIVE PROJECT VISUALIZERS (ETA + CHURCH + INFOVERIFY)
 // =========================================================
-const etaCanvas = $('#etaCanvas');
-let resizeEta = () => {};
-if (etaCanvas) {
-  const ectx = etaCanvas.getContext('2d');
-  let ew = 0, eh = 0;
-  resizeEta = () => {
-    const r = etaCanvas.getBoundingClientRect();
+const simResizers = [];
+const setupHiDPICanvas = (canvas) => {
+  const ctx = canvas.getContext('2d');
+  const state = { w: 0, h: 0, ctx };
+  const resize = () => {
+    const r = canvas.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    ew = r.width;
-    eh = r.height;
-    etaCanvas.width = ew * dpr;
-    etaCanvas.height = eh * dpr;
-    ectx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    state.w = r.width;
+    state.h = r.height;
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
-  resizeEta();
-  addEventListener('resize', resizeEta);
+  resize();
+  simResizers.push(resize);
+  return state;
+};
+addEventListener('resize', () => simResizers.forEach(fn => fn()));
 
-  let et = 0;
-  const spreadLabel = $('#etaSpreadLabel');
+// 1. Train ETA Probabilistic Distribution Visualizer
+const etaCanvas = $('#etaCanvas');
+if (etaCanvas) {
+  const S = setupHiDPICanvas(etaCanvas);
+  let targetPos = 0.46, curPos = 0.46, targetSpread = 0.12, curSpread = 0.12, et = 0;
+
+  $$('.stn-btn').forEach(btn => {
+    const act = () => {
+      $$('.stn-btn').forEach(b => b.classList.toggle('active', b === btn));
+      targetPos = parseFloat(btn.dataset.pos);
+      targetSpread = parseFloat(btn.dataset.spread);
+      $('#etaStationTitle').textContent = btn.dataset.name;
+    };
+    btn.addEventListener('mouseenter', act);
+    btn.addEventListener('click', act);
+  });
+
   const drawEta = () => {
-    et += 0.025;
-    if (ew > 0 && eh > 0) {
-      ectx.clearRect(0, 0, ew, eh);
+    et += 0.022;
+    curPos += (targetPos - curPos) * 0.08;
+    curSpread += (targetSpread - curSpread) * 0.08;
+    const { w, h, ctx } = S;
+    if (w > 0 && h > 0) {
+      ctx.clearRect(0, 0, w, h);
       const [ar, ag, ab] = accentRGB;
 
-      ectx.strokeStyle = 'rgba(205,203,202,0.08)';
-      ectx.lineWidth = 1;
-      for (let y = 25; y < eh; y += 32) {
-        ectx.beginPath(); ectx.moveTo(0, y); ectx.lineTo(ew, y); ectx.stroke();
+      ctx.strokeStyle = 'rgba(205,203,202,0.08)';
+      ctx.lineWidth = 1;
+      for (let y = 22; y < h; y += 28) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      const mean = w * (curPos + Math.sin(et * 0.8) * 0.025);
+      const sigma = w * (curSpread + Math.cos(et * 0.9) * 0.008);
+      const baseLine = h - 12;
+      const peakH = h * (0.76 - curSpread * 1.15);
+
+      if (Math.floor(et * 10) % 8 === 0) {
+        $('#etaSpreadLabel').textContent = `±${(0.7 + (sigma / w) * 14).toFixed(1)} MIN BAND`;
       }
 
-      const mean = ew * (0.5 + Math.sin(et * 0.7) * 0.12);
-      const sigma = ew * (0.13 + Math.cos(et * 0.9) * 0.035);
-      const baseLine = eh - 14;
-      const peakH = eh * 0.68;
-
-      if (spreadLabel && Math.floor(et * 10) % 12 === 0) {
-        const bandMin = (1.6 + (sigma / ew) * 10).toFixed(1);
-        spreadLabel.textContent = `±${bandMin} MIN BAND`;
-      }
-
-      const leftBound = mean - sigma * 1.65;
-      const rightBound = mean + sigma * 1.65;
-      const bandGrad = ectx.createLinearGradient(0, 10, 0, baseLine);
-      bandGrad.addColorStop(0, `rgba(${ar},${ag},${ab},0.36)`);
+      const leftBound = Math.max(0, mean - sigma * 1.65);
+      const rightBound = Math.min(w, mean + sigma * 1.65);
+      const bandGrad = ctx.createLinearGradient(0, 8, 0, baseLine);
+      bandGrad.addColorStop(0, `rgba(${ar},${ag},${ab},0.38)`);
       bandGrad.addColorStop(1, `rgba(${ar},${ag},${ab},0.02)`);
 
-      ectx.beginPath();
-      ectx.moveTo(leftBound, baseLine);
-      for (let x = leftBound; x <= rightBound; x += 3) {
+      ctx.beginPath();
+      ctx.moveTo(leftBound, baseLine);
+      for (let x = leftBound; x <= rightBound; x += 2.5) {
         const z = (x - mean) / sigma;
-        ectx.lineTo(x, baseLine - Math.exp(-0.5 * z * z) * peakH);
+        ctx.lineTo(x, baseLine - Math.exp(-0.5 * z * z) * peakH);
       }
-      ectx.lineTo(rightBound, baseLine);
-      ectx.closePath();
-      ectx.fillStyle = bandGrad;
-      ectx.fill();
+      ctx.lineTo(rightBound, baseLine);
+      ctx.closePath();
+      ctx.fillStyle = bandGrad;
+      ctx.fill();
 
-      ectx.beginPath();
-      for (let x = 0; x <= ew; x += 3) {
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 2.5) {
         const z = (x - mean) / sigma;
         const y = baseLine - Math.exp(-0.5 * z * z) * peakH;
-        x === 0 ? ectx.moveTo(x, y) : ectx.lineTo(x, y);
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-      ectx.strokeStyle = currentChrome;
-      ectx.lineWidth = 1.6;
-      ectx.stroke();
+      ctx.strokeStyle = currentChrome;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
 
-      ectx.beginPath();
-      ectx.moveTo(mean, baseLine - peakH - 6);
-      ectx.lineTo(mean, baseLine);
-      ectx.strokeStyle = currentAccent;
-      ectx.setLineDash([4, 4]);
-      ectx.lineWidth = 1.5;
-      ectx.stroke();
-      ectx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(mean, baseLine - peakH - 5);
+      ctx.lineTo(mean, baseLine);
+      ctx.strokeStyle = currentAccent;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
 
-      ectx.fillStyle = currentAccent;
-      ectx.beginPath();
-      ectx.arc(mean, baseLine - peakH, 4, 0, Math.PI * 2);
-      ectx.fill();
+      ctx.fillStyle = currentAccent;
+      ctx.beginPath();
+      ctx.arc(mean, baseLine - peakH, 3.8, 0, Math.PI * 2);
+      ctx.fill();
     }
     requestAnimationFrame(drawEta);
   };
   drawEta();
 }
 
-// =========================================================
-// GLIDING FILTER PILL + STAGGERED CARD CHOREOGRAPHY (STAGE 02)
-// =========================================================
+// 2. Operation Church: Local .exe Record Pipeline & Throughput Visualizer
+const churchCanvas = $('#churchCanvas');
+if (churchCanvas) {
+  const S = setupHiDPICanvas(churchCanvas);
+  let targetRate = 1.0, curRate = 1.0, targetBlocks = 6, ct = 0;
+
+  $$('.ch-btn').forEach(btn => {
+    const act = () => {
+      $$('.ch-btn').forEach(b => b.classList.toggle('active', b === btn));
+      targetRate = parseFloat(btn.dataset.rate);
+      targetBlocks = parseInt(btn.dataset.blocks, 10);
+      $('#churchModeTitle').textContent = btn.dataset.title;
+      $('#churchMetricLabel').textContent = btn.dataset.metric;
+    };
+    btn.addEventListener('mouseenter', act);
+    btn.addEventListener('click', act);
+  });
+
+  const drawChurch = () => {
+    curRate += (targetRate - curRate) * 0.08;
+    ct += 0.025 * curRate;
+    const { w, h, ctx } = S;
+    if (w > 0 && h > 0) {
+      ctx.clearRect(0, 0, w, h);
+      const [ar, ag, ab] = accentRGB;
+      const baseLine = h - 14;
+
+      // Local indexed record columns pulsing with real-time commit locks
+      const gap = 8;
+      const barW = (w - gap * (targetBlocks + 1)) / targetBlocks;
+      for (let i = 0; i < targetBlocks; i++) {
+        const bx = gap + i * (barW + gap);
+        const load = 0.36 + 0.38 * (0.5 + 0.5 * Math.sin(ct * 1.7 + i * 0.9));
+        const bh = (h - 34) * load;
+        const by = baseLine - bh;
+
+        const g = ctx.createLinearGradient(0, by, 0, baseLine);
+        g.addColorStop(0, `rgba(${ar},${ag},${ab},0.48)`);
+        g.addColorStop(1, `rgba(205,203,202,0.05)`);
+        ctx.fillStyle = g;
+        ctx.fillRect(bx, by, barW, bh);
+
+        // Top commit cap line
+        ctx.fillStyle = i % 2 === 0 ? currentAccent : currentChrome;
+        ctx.fillRect(bx, by - 2, barW, 2);
+      }
+
+      // Smooth Local I/O Throughput Spline Overlay
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 3) {
+        const y = h * 0.34 + Math.sin(x * 0.035 - ct * 2.4) * 11 + Math.cos(x * 0.02 + ct) * 6;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = currentChrome;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      // Travelling Local Bus Packet Node
+      const px = ((ct * 55) % w);
+      const py = h * 0.34 + Math.sin(px * 0.035 - ct * 2.4) * 11 + Math.cos(px * 0.02 + ct) * 6;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(drawChurch);
+  };
+  drawChurch();
+}
+
+// 3. InfoVerify: Python Pattern Cross-Reference & Anomaly Boundary Visualizer
+const verifyCanvas = $('#verifyCanvas');
+if (verifyCanvas) {
+  const S = setupHiDPICanvas(verifyCanvas);
+  let targetRisk = 0.14, curRisk = 0.14, vt = 0;
+
+  $$('.vf-btn').forEach(btn => {
+    const act = () => {
+      $$('.vf-btn').forEach(b => b.classList.toggle('active', b === btn));
+      targetRisk = parseFloat(btn.dataset.risk);
+      $('#verifyModeTitle').textContent = btn.dataset.title;
+      $('#verifyScoreLabel').textContent = btn.dataset.score;
+    };
+    btn.addEventListener('mouseenter', act);
+    btn.addEventListener('click', act);
+  });
+
+  const drawVerify = () => {
+    vt += 0.028;
+    curRisk += (targetRisk - curRisk) * 0.08;
+    const { w, h, ctx } = S;
+    if (w > 0 && h > 0) {
+      ctx.clearRect(0, 0, w, h);
+      const [ar, ag, ab] = accentRGB;
+      const midY = h * 0.54;
+      const thresholdY = h * 0.28;
+
+      // Anomaly Decision Threshold Line
+      ctx.strokeStyle = `rgba(${ar},${ag},${ab},0.45)`;
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(0, thresholdY);
+      ctx.lineTo(w, thresholdY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Baseline Verified Reference Wave (Chrome)
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 3) {
+        const y = midY + Math.sin(x * 0.04 + vt) * 10;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = 'rgba(205,203,202,0.42)';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      // Incoming Site Pattern Spectrum (Shifts & Spikes Based on Risk Level!)
+      const amp = 10 + curRisk * 32;
+      const fillG = ctx.createLinearGradient(0, thresholdY - 14, 0, h);
+      fillG.addColorStop(0, curRisk > 0.45 ? `rgba(${ar},${ag},${ab},0.42)` : 'rgba(16,185,129,0.32)');
+      fillG.addColorStop(1, 'rgba(0,0,0,0)');
+
+      ctx.beginPath();
+      ctx.moveTo(0, h - 8);
+      for (let x = 0; x <= w; x += 2.5) {
+        const spike = Math.sin(x * (0.04 + curRisk * 0.045) - vt * (1.3 + curRisk)) * amp * (0.6 + 0.4 * Math.sin(x * 0.02 + vt));
+        const y = midY - curRisk * 14 + spike;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h - 8);
+      ctx.closePath();
+      ctx.fillStyle = fillG;
+      ctx.fill();
+
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 2.5) {
+        const spike = Math.sin(x * (0.04 + curRisk * 0.045) - vt * (1.3 + curRisk)) * amp * (0.6 + 0.4 * Math.sin(x * 0.02 + vt));
+        const y = midY - curRisk * 14 + spike;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = curRisk > 0.45 ? currentAccent : '#10b981';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+    }
+    requestAnimationFrame(drawVerify);
+  };
+  drawVerify();
+}
+
+// Section Header Line Visibility Observer
+const headObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('head-visible', entry.isIntersecting);
+  });
+}, { threshold: 0.45 });
+$$('.obs-head').forEach(h => headObserver.observe(h));
+
+// Gliding Filter Pill + Staggered Card Choreography (Stage 02)
 const filterSlider = $('#filterPillSlider');
 const filterBtns = $$('.filter-btn');
 const projectCards = $$('.project-card');
@@ -2992,7 +3678,6 @@ const moveFilterSlider = (btn) => {
   filterSlider.style.transform = `translate3d(${btn.offsetLeft}px, ${btn.offsetTop}px, 0)`;
 };
 
-// Initialize Filter Pill Position
 setTimeout(() => moveFilterSlider(activeFilterBtn), 60);
 addEventListener('resize', () => moveFilterSlider(activeFilterBtn));
 
@@ -3007,38 +3692,28 @@ filterBtns.forEach(btn => {
     const filterKey = btn.dataset.filter;
     clearTimeout(filterTimeout);
 
-    // Phase 1: Smoothly exit currently visible cards
     const currentlyVisible = projectCards.filter(c => !c.classList.contains('hidden-card'));
     currentlyVisible.forEach(c => {
       c.classList.remove('scanning');
       c.animate(
         [
-          { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)', filter: 'blur(0px)' },
-          { opacity: 0, transform: 'translate3d(0, 18px, 0) scale(0.96)', filter: 'blur(6px)' }
+          { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' },
+          { opacity: 0, transform: 'translate3d(0, 16px, 0) scale(0.97)' }
         ],
-        { duration: 190, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+        { duration: 180, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
       );
     });
 
-    // Phase 2: Swap visibility, adapt grid symmetry, and choreograph card + inner chip entrance
     filterTimeout = setTimeout(() => {
       const nextVisible = [];
       projectCards.forEach(card => {
         const cats = card.dataset.cat || '';
         const show = filterKey === 'all' || cats.includes(filterKey);
         card.classList.toggle('hidden-card', !show);
-        card.classList.remove('solo-span');
         if (show) nextVisible.push(card);
       });
 
-      // Keep grid balanced when a non-featured card stands alone on a row
-      const nonFeaturedVisible = nextVisible.filter(c => !c.classList.contains('featured-span'));
-      if (nonFeaturedVisible.length === 1) {
-        nonFeaturedVisible[0].classList.add('solo-span');
-      }
-
-      // Re-measure ETA canvas if flagship card just became visible
-      resizeEta();
+      simResizers.forEach(fn => fn());
 
       nextVisible.forEach((card, i) => {
         card.getAnimations().forEach(a => a.cancel());
@@ -3048,53 +3723,17 @@ filterBtns.forEach(btn => {
 
         card.animate(
           [
-            { opacity: 0, transform: 'translate3d(0, 28px, 0) scale(0.95)', filter: 'blur(8px)' },
-            { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)', filter: 'blur(0px)' }
+            { opacity: 0, transform: 'translate3d(0, 26px, 0) scale(0.96)' },
+            { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
           ],
-          { duration: 520, delay: i * 95, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+          { duration: 480, delay: i * 90, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
         );
-
-        // Stagger tech badges inside each revealed card
-        const chips = card.querySelectorAll('.project-tech span');
-        chips.forEach((chip, ci) => {
-          chip.animate(
-            [
-              { opacity: 0, transform: 'translate3d(0, 10px, 0) scale(0.9)' },
-              { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
-            ],
-            { duration: 380, delay: i * 95 + 140 + ci * 55, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'both' }
-          );
-        });
       });
-    }, 195);
+    }, 185);
   });
 });
 
 $('#projectFilters').addEventListener('mouseleave', () => moveFilterSlider(activeFilterBtn));
-
-// =========================================================
-// CYBERNETIC TEXT SCRAMBLE
-// =========================================================
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789//';
-const scrambleText = (el, customTarget = null) => {
-  if (!el || el.dataset.scrambling === '1') return;
-  const target = customTarget || el.dataset.title || el.textContent;
-  el.dataset.scrambling = '1';
-  let iter = 0;
-  const iv = setInterval(() => {
-    el.textContent = target.split('').map((ch, idx) => {
-      if (ch === ' ' || ch === '&' || ch === '@' || ch === '.') return ch;
-      if (idx < iter) return target[idx];
-      return CHARS[Math.floor(Math.random() * CHARS.length)];
-    }).join('');
-    iter += 0.65;
-    if (iter >= target.length) {
-      el.textContent = target;
-      el.dataset.scrambling = '0';
-      clearInterval(iv);
-    }
-  }, 24);
-};
 
 // Mobile Glass Drawer Controller
 const mobileMenuBtn = $('#mobileMenuBtn');
@@ -3140,7 +3779,7 @@ navLinks.forEach(link => link.addEventListener('mouseenter', () => moveNavSlider
 $('#navMenuPill').addEventListener('mouseleave', () => moveNavSlider(activeNavEl));
 addEventListener('resize', () => moveNavSlider(activeNavEl));
 
-// Slow -> Speed -> Slow (Ease-In-Out Quintic) Scroll with Instant Touch Interrupt
+// Slow -> Speed -> Slow (Ease-In-Out Quintic) Scroll with Instant Interrupt
 let scrollAnimId = null;
 const cancelAutoScroll = () => {
   if (scrollAnimId) { cancelAnimationFrame(scrollAnimId); scrollAnimId = null; }
@@ -3194,7 +3833,7 @@ let lastStageIdx = 0;
 const updateSectionStages = () => {
   const vh = window.innerHeight;
   const vhCenter = vh * 0.48;
-  const nearBottom = (window.scrollY + vh) >= (document.documentElement.scrollHeight - 60);
+  const nearBottom = (window.scrollY + vh) >= (document.documentElement.scrollHeight - 70);
 
   let closestIdx = 0;
   if (nearBottom) {
@@ -3213,9 +3852,9 @@ const updateSectionStages = () => {
 
   if (closestIdx !== lastStageIdx) {
     lastStageIdx = closestIdx;
-    const scrambleEl = allStages[closestIdx].querySelector('.scramble-title');
-    if (scrambleEl) scrambleText(scrambleEl);
-    if (allStages[closestIdx].id === 'work') setTimeout(() => moveFilterSlider(activeFilterBtn), 50);
+    if (allStages[closestIdx].id === 'work') {
+      setTimeout(() => { moveFilterSlider(activeFilterBtn); simResizers.forEach(fn => fn()); }, 50);
+    }
   }
 
   allStages.forEach((sec, idx) => {
@@ -3243,7 +3882,6 @@ const updateSectionStages = () => {
   if (!$('#navMenuPill:hover')) moveNavSlider(activeNavEl);
 };
 
-// Scroll Frame Handler
 const ring = $('#topRing');
 const circumference = 151;
 let scrollTicking = false;
@@ -3272,12 +3910,23 @@ handleScrollFrame();
 
 $('#top').addEventListener('click', () => smoothScrollTo(0, 1080));
 
-// Desktop Pointer Effects: Cursor Aura, Luminar Card Tracking & Magnetic Controls
-const isDesktopPointer = matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Desktop Cursor Aura, Luminar Card Tracking & Magnetic Controls
+const isDesktopPointer = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion;
 if (isDesktopPointer) {
+  let auraX = innerWidth / 2, auraY = innerHeight / 2, targetAuraX = auraX, targetAuraY = auraY;
+  const auraEl = $('#cursorAura');
   addEventListener('mousemove', e => {
-    $('#cursorAura').style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    targetAuraX = e.clientX;
+    targetAuraY = e.clientY;
   }, { passive: true });
+
+  const animateAura = () => {
+    auraX += (targetAuraX - auraX) * 0.14;
+    auraY += (targetAuraY - auraY) * 0.14;
+    if (auraEl) auraEl.style.transform = `translate3d(${auraX}px, ${auraY}px, 0)`;
+    requestAnimationFrame(animateAura);
+  };
+  animateAura();
 
   $$('.project-card, .spot-card').forEach(c => {
     c.addEventListener('mousemove', e => {
@@ -3287,26 +3936,26 @@ if (isDesktopPointer) {
       c.style.setProperty('--mx', x * 100 + '%');
       c.style.setProperty('--my', y * 100 + '%');
       if (c.classList.contains('project-card')) {
-        c.style.transform = `perspective(1000px) rotateX(${(.5 - y) * 3.5}deg) rotateY(${(x - .5) * 5}deg) translateY(-4px)`;
+        c.style.transform = `perspective(1000px) rotateX(${(.5 - y) * 2.6}deg) rotateY(${(x - .5) * 3.8}deg) translateY(-3px)`;
       }
     });
     c.addEventListener('mouseleave', () => { c.style.transform = ''; });
   });
 
-  $$('.btn, .soc-btn, .resume-link, .laser-mail-shell').forEach(el => {
+  $$('.btn, .soc-btn, .resume-link, .liquid-mail-wrap').forEach(el => {
     el.addEventListener('mousemove', e => {
       const r = el.getBoundingClientRect();
-      const dx = (e.clientX - r.left - r.width / 2) * 0.16;
-      const dy = (e.clientY - r.top - r.height / 2) * 0.2;
+      const dx = (e.clientX - r.left - r.width / 2) * 0.15;
+      const dy = (e.clientY - r.top - r.height / 2) * 0.18;
       el.style.transform = `translate3d(${dx}px, ${dy - 2}px, 0)`;
     });
     el.addEventListener('mouseleave', () => { el.style.transform = ''; });
   });
 }
 
-// Ambient Chrome & Laser Starfield Canvas
+// Starfield Canvas
 const starCanvas = $('#starfield');
-if (starCanvas && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+if (starCanvas && !reduceMotion) {
   const sctx = starCanvas.getContext('2d');
   let sw = 0, sh = 0, stars = [];
   const initStars = () => {
@@ -3317,7 +3966,7 @@ if (starCanvas && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       x: Math.random() * sw,
       y: Math.random() * sh,
       r: Math.random() * 1.4 + 0.5,
-      vy: -(Math.random() * 0.28 + 0.08),
+      vy: -(Math.random() * 0.26 + 0.08),
       a: Math.random() * 0.45 + 0.15,
       laser: i % 5 === 0
     }));
@@ -3340,52 +3989,44 @@ if (starCanvas && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   drawStars();
 }
 
-// Spark Burst + Expanding Shockwave Ring on Clipboard Copy
+// Spark Burst + Shockwave on Copy
 const emitSparks = (el) => {
-  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!el || reduceMotion) return;
   const r = el.getBoundingClientRect();
   const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
 
-  // Expanding Radar Shockwave
   const wave = document.createElement('span');
   wave.className = 'copy-shockwave';
-  wave.style.left = `${cx}px`;
-  wave.style.top = `${cy}px`;
-  wave.style.width = '12px';
-  wave.style.height = '12px';
-  wave.style.marginLeft = '-6px';
-  wave.style.marginTop = '-6px';
+  wave.style.cssText = `left:${cx}px;top:${cy}px;width:12px;height:12px;margin:-6px 0 0 -6px`;
   document.body.appendChild(wave);
   wave.animate(
-    [
-      { transform: 'scale(1)', opacity: 0.9 },
-      { transform: 'scale(14)', opacity: 0 }
-    ],
-    { duration: 620, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+    [{ transform: 'scale(1)', opacity: 0.85 }, { transform: 'scale(14)', opacity: 0 }],
+    { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
   ).onfinish = () => wave.remove();
 
-  // 16 Laser & Chrome Sparks
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 14; i++) {
     const spark = document.createElement('span');
     spark.className = 'spark-dot';
     spark.style.left = `${cx - 3}px`;
     spark.style.top = `${cy - 3}px`;
-    spark.style.background = i % 2 === 0 ? currentAccent : currentChrome;
-    spark.style.boxShadow = `0 0 8px ${currentAccent}`;
+    spark.style.background = i % 2 === 0 ? '#10b981' : '#ffffff';
+    spark.style.boxShadow = '0 0 8px #10b981';
     document.body.appendChild(spark);
-    const ang = (Math.PI * 2 * i) / 16;
-    const dist = 32 + Math.random() * 34;
+    const ang = (Math.PI * 2 * i) / 14;
+    const dist = 30 + Math.random() * 32;
     spark.animate(
       [
         { transform: 'translate3d(0,0,0) scale(1)', opacity: 1 },
         { transform: `translate3d(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist}px, 0) scale(0)`, opacity: 0 }
       ],
-      { duration: 560, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+      { duration: 540, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
     ).onfinish = () => spark.remove();
   }
 };
 
-// Universal Copy Gmail Handler with Cybernetic Address Decode
+// =========================================================
+// COPY GMAIL WITH SILKY POST-COPY CHARACTER DECODE
+// =========================================================
 const GMAIL_ADDRESS = 'jebarajimman12@gmail.com';
 let btnTimer;
 const copyEmailToClipboard = async (sourceEl) => {
@@ -3406,63 +4047,93 @@ const copyEmailToClipboard = async (sourceEl) => {
   closeMobileDrawer();
 
   const copyBtn = $('#copyMailBtn');
-  const shell = $('#laserMailShell');
-  const addrEl = $('#mailAddressText');
-  if (addrEl) scrambleText(addrEl, GMAIL_ADDRESS);
+  const shell = $('#liquidMailWrap');
+  const liveText = $('#mailLiveText');
+  const bottomHandle = $('#bottomGmailHandle');
 
-  if (copyBtn) {
+  if (copyBtn && liveText) {
     copyBtn.classList.add('copied');
     if (shell) shell.classList.add('copied');
     $('#copyIcon').innerHTML = '<use href="#ck"/>';
     $('#mailIconBox').innerHTML = '<svg class="i"><use href="#ck"/></svg>';
+
+    smoothMorphDecode(liveText, { target: 'Copied to clipboard!', delay: 0, duration: 680 });
+    if (bottomHandle) bottomHandle.textContent = 'Copied to clipboard!';
+
     clearTimeout(btnTimer);
     btnTimer = setTimeout(() => {
       copyBtn.classList.remove('copied');
       if (shell) shell.classList.remove('copied');
       $('#copyIcon').innerHTML = '<use href="#cp"/>';
       $('#mailIconBox').innerHTML = '<svg class="i"><use href="#gm"/></svg>';
-    }, 2400);
+
+      smoothMorphDecode(liveText, { target: GMAIL_ADDRESS, delay: 0, duration: 740 });
+      if (bottomHandle) bottomHandle.textContent = GMAIL_ADDRESS;
+    }, 2800);
   }
-  showToast('Email Copied to Clipboard!', `${GMAIL_ADDRESS} is ready to paste.`);
+  showToast('Email Copied!', `${GMAIL_ADDRESS} is ready to paste.`);
 };
 
 $('#copyMailBtn').addEventListener('click', e => copyEmailToClipboard(e.currentTarget));
 $$('.copy-gmail-icon').forEach(btn => btn.addEventListener('click', e => copyEmailToClipboard(e.currentTarget)));
 
-// 3D Resume Modal
+// Zero-Lag Deferred Resume Modal
 const rm = $('#resumeModal');
 const resumeBtn = $('#openResumeNav');
+const resumeFrame = $('#resumeFrame');
+const resumeLoader = $('#resumeLoader');
+let resumeLoadedOnce = false;
+let resumeMountTimer = null;
+
+resumeFrame.addEventListener('load', () => {
+  if (resumeFrame.getAttribute('src')) {
+    resumeFrame.classList.add('ready');
+    resumeLoader.classList.add('done');
+  }
+});
+
 const openResumeModal = () => {
   closeMobileDrawer();
   resumeBtn.classList.add('launching');
-  setTimeout(() => resumeBtn.classList.remove('launching'), 260);
+  setTimeout(() => resumeBtn.classList.remove('launching'), 200);
   rm.classList.add('active');
   rm.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+
+  if (!resumeLoadedOnce) {
+    clearTimeout(resumeMountTimer);
+    resumeMountTimer = setTimeout(() => {
+      resumeLoadedOnce = true;
+      resumeFrame.src = resumeFrame.dataset.src;
+    }, 280);
+  }
 };
+
 const shutResume = () => {
+  clearTimeout(resumeMountTimer);
   rm.classList.remove('active');
   rm.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 };
+
 resumeBtn.addEventListener('click', e => { e.preventDefault(); openResumeModal(); });
 $('#closeResumeBtn').addEventListener('click', shutResume);
 addEventListener('click', e => { if (e.target === rm) shutResume(); });
 
-// Command Palette (No Theme Option — Strictly Easter Egg Exclusive)
+// Quick Jump Menu
 const cmdModal = $('#cmdModal');
 const cmdInput = $('#cmdInput');
 const cmdList = $('#cmdList');
 const COMMANDS = [
-  { label: 'Jump to Hero Core', tag: 'Stage 00', run: () => scrollToSelector('#hero') },
-  { label: 'Jump to Background & Stack', tag: 'Stage 01', run: () => scrollToSelector('#about') },
-  { label: 'Jump to Selected Projects', tag: 'Stage 02', run: () => scrollToSelector('#work') },
-  { label: 'Jump to Get In Touch', tag: 'Stage 03', run: () => scrollToSelector('#contact') },
-  { label: 'Copy Gmail (jebarajimman12@gmail.com)', tag: 'Clipboard', run: () => copyEmailToClipboard($('#copyMailBtn')) },
-  { label: 'Open Interactive Resume Viewer', tag: 'Document', run: () => openResumeModal() },
-  { label: 'Open GitHub (@Jrajimman12)', tag: 'External', run: () => window.open('https://github.com/Jrajimman12', '_blank') },
-  { label: 'Open LinkedIn (Jebaraj Immanuel)', tag: 'External', run: () => window.open('https://www.linkedin.com/in/jebarajimmanuel', '_blank') },
-  { label: 'Open Instagram (@jebaraj__immanuel)', tag: 'External', run: () => window.open('https://www.instagram.com/jebaraj__immanuel/', '_blank') }
+  { label: 'Go to Introduction', tag: 'Section 00', run: () => scrollToSelector('#hero') },
+  { label: 'Go to Background & Stack', tag: 'Section 01', run: () => scrollToSelector('#about') },
+  { label: 'Go to Selected Projects', tag: 'Section 02', run: () => scrollToSelector('#work') },
+  { label: 'Go to Let’s Talk', tag: 'Section 03', run: () => scrollToSelector('#contact') },
+  { label: 'Copy Email (jebarajimman12@gmail.com)', tag: 'Copy', run: () => copyEmailToClipboard($('#copyMailBtn')) },
+  { label: 'View Resume', tag: 'PDF', run: () => openResumeModal() },
+  { label: 'Visit GitHub (@Jrajimman12)', tag: 'Profile', run: () => window.open('https://github.com/Jrajimman12', '_blank') },
+  { label: 'Visit LinkedIn (in/jebarajimmanuel)', tag: 'Profile', run: () => window.open('https://www.linkedin.com/in/jebarajimmanuel', '_blank') },
+  { label: 'Visit Instagram (@jebaraj__immanuel)', tag: 'Profile', run: () => window.open('https://www.instagram.com/jebaraj__immanuel/', '_blank') }
 ];
 
 let selectedCmdIdx = 0;
@@ -3492,7 +4163,7 @@ const openCmdModal = () => {
   cmdInput.value = '';
   selectedCmdIdx = 0;
   renderCommands();
-  if (isDesktopPointer) setTimeout(() => cmdInput.focus(), 60);
+  if (isDesktopPointer) setTimeout(() => cmdInput.focus(), 50);
 };
 const closeCmdModal = () => {
   cmdModal.classList.remove('active');
@@ -3516,16 +4187,16 @@ addEventListener('keydown', e => {
     else if (e.key === 'ArrowUp') { e.preventDefault(); selectedCmdIdx = (selectedCmdIdx - 1 + filteredCmds.length) % Math.max(1, filteredCmds.length); renderCommands(); }
     else if (e.key === 'Enter' && filteredCmds[selectedCmdIdx]) { e.preventDefault(); const fn = filteredCmds[selectedCmdIdx].run; closeCmdModal(); fn(); }
   }
-  if (e.key === 'Escape') { shutResume(); closePresetModal(); closeCmdModal(); closeMobileDrawer(); }
+  if (e.key === 'Escape') { shutResume(); closeCmdModal(); closeMobileDrawer(); toggleInlineStudio(false); }
 });
 
 const updateClock = () => {
   const el = $('#liveClock');
   if (!el) return;
-  const now = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-  el.textContent = `IST // ${now.toUpperCase()}`;
+  const now = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
+  el.textContent = `IST • ${now.toUpperCase()}`;
 };
-setInterval(updateClock, 1000);
+setInterval(updateClock, 10000);
 updateClock();
 </script>
 </body>
